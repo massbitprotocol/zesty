@@ -16,6 +16,7 @@ services:
        - ./volume/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
        - ./volume/modules.conf:/usr/local/openresty/nginx/conf/modules.conf
        - ./volume/conf:/etc/nginx/conf.d:rw
+       - ./volume/ssl:/etc/gateway/ssl:rw
        - ./volume/data:/usr/local/openresty/nginx/data:rw
        - ./volume/logs:/usr/local/openresty/nginx/logs:rw
        - ./volume/modules:/usr/local/openresty/nginx/extensions:rw
