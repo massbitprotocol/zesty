@@ -1,0 +1,31 @@
+# version: "2"
+services:
+  gateway:
+    privileged: true
+    restart: unless-stopped
+    image: openresty/openresty:1.19.9.1-14-focal
+    container_name: mbr_gateway
+    #image: massbit/massbitroute_gateway
+
+    # command: 'sleep infinity'
+    # command: ""
+    # network_mode: "host"
+    ports:
+      - 8080:80
+    volumes:
+       - ./volume/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+       - ./volume/modules.conf:/usr/local/openresty/nginx/conf/modules.conf
+       - ./volume/conf:/etc/nginx/conf.d:rw
+       - ./volume/data:/usr/local/openresty/nginx/data:rw
+       - ./volume/logs:/usr/local/openresty/nginx/logs:rw
+       - ./volume/modules:/usr/local/openresty/nginx/extensions:rw
+       - ./volume/tmp:/usr/local/openresty/nginx/tmp:rw
+    environment:
+      - MBR_ENV=keiko
+      - ID=
+      - USER_ID=
+      - BLOCKCHAIN=
+      - NETWORK
+      - ZONE=
+      - APP_KEY=
+      - INSTALL_CMD=
