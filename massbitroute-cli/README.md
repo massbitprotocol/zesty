@@ -1,0 +1,1 @@
+Run `strip -s <file>` after build to reduce the size of binary file

@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  dev:
+    container_name: massbitroute-cli
+    image: massbitroute-cli:1.0.0
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: development
+    command: sleep infinity
+    volumes:
+      - .:/app
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+networks:
+  default:
+    driver: bridge
