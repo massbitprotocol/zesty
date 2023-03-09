@@ -1,9 +1,6 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package main
 
-import "massbit.io/massbitroute/cli/cmd"
+import "massbit.io/cli/mbr/cmd"
 
 func main() {
 	cmd.Execute()

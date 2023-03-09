@@ -1,4 +1,4 @@
-module massbit.io/massbitroute/cli
+module massbit.io/cli/mbr
 
 go 1.20
 

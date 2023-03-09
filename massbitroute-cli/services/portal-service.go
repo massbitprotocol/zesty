@@ -10,10 +10,20 @@ import (
 )
 
 type PortalService struct {
-	Url string
+	Url         string
+	FileService FileService
 }
 
-func (s PortalService) Login(email string, password string) (accessToken string, err error) {
+func (s PortalService) IsUserLoggedIn() (isLoggedIn bool, err error) {
+	token, err := s.FileService.ReadUserCredential()
+	if err == nil && token != "" {
+		// TODO: call portal API to check token
+		isLoggedIn = true
+	}
+	return
+}
+
+func (s PortalService) UserLogin(email string, password string, loggedOut bool) (accessToken string, err error) {
 	URL := fmt.Sprintf("%v/auth/login", s.Url)
 	values := map[string]string{"email": strings.TrimSpace(email), "password": strings.TrimSpace(string(password))}
 	json_data, err := json.Marshal(values)
@@ -32,8 +42,19 @@ func (s PortalService) Login(email string, password string) (accessToken string,
 	json.NewDecoder(response.Body).Decode(&res)
 	if response.StatusCode == 200 || response.StatusCode == 201 {
 		accessToken = res["accessToken"].(string)
+		if loggedOut {
+			fmt.Println("Logging out...")
+			s.UserLogOut()
+		}
+		err = s.FileService.WriteUserCredential(accessToken)
 	} else {
-		err = errors.New("login failed, please try again")
+		err = errors.New("login failed, please check email and password again")
 	}
+	return
+}
+
+func (s PortalService) UserLogOut() (err error) {
+	// TODO: check status of gateway before log out
+	err = s.FileService.RemoveUserCredential()
 	return
 }

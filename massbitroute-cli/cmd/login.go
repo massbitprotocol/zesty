@@ -1,26 +1,20 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
-	"bufio"
 	"fmt"
 	"log"
-	"os"
-	"syscall"
 
 	"github.com/spf13/cobra"
-	"golang.org/x/term"
-	"massbit.io/massbitroute/cli/common"
-	"massbit.io/massbitroute/cli/services"
+	"massbit.io/cli/mbr/common"
+	"massbit.io/cli/mbr/services"
+	"massbit.io/cli/mbr/utils"
 )
 
 // loginCmd represents the login command
 var loginCmd = &cobra.Command{
-	Use:   "login",
-	Short: "Login as Massbit user",
-	Long:  `Login as Massbit user`,
+	Use:     "login",
+	GroupID: "mbr",
+	Short:   "Login user",
 	Run: func(cmd *cobra.Command, args []string) {
 		conf, err := common.ReadConfig()
 		if err != nil {
@@ -28,19 +22,37 @@ var loginCmd = &cobra.Command{
 		}
 		portalService := services.PortalService{
 			Url: conf.Services.Portal,
+			FileService: services.FileService{
+				Path: conf.Paths,
+			},
 		}
-		reader := bufio.NewReader(os.Stdin)
-		fmt.Print("Please input your email: ")
-		email, err := reader.ReadString('\n')
+		isLoggedIn, err := portalService.IsUserLoggedIn()
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Print("And your password: ")
-		password, err := term.ReadPassword(int(syscall.Stdin))
+		var loggedOut bool
+		if isLoggedIn {
+			ans, err := utils.AskBoolean("You are already logged in, do you want to logged out")
+			if err != nil {
+				log.Fatal(err)
+			}
+			if ans {
+				loggedOut = true
+			} else {
+				fmt.Println("Ok, bye!")
+				return
+			}
+		}
+
+		email, err := utils.Ask("Please input your email: ")
 		if err != nil {
 			log.Fatal(err)
 		}
-		_, err = portalService.Login(email, string(password))
+		password, err := utils.AskSecret("And your password: ")
+		if err != nil {
+			log.Fatal(err)
+		}
+		_, err = portalService.UserLogin(email, string(password), loggedOut)
 		if err == nil {
 			fmt.Println("\nLogin success!")
 		} else {
@@ -51,14 +63,4 @@ var loginCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(loginCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// loginCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// loginCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
