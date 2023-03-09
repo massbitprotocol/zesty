@@ -11,8 +11,9 @@ import (
 // GatewayInfoCmd represents the gatewayinfo command
 func GatewayInfoCmd(conf *common.Config, portalService services.PortalService) *cobra.Command {
 	return &cobra.Command{
-		Use:   "info",
-		Short: "A brief description of your command",
+		Use:     "info",
+		GroupID: "gateway",
+		Short:   "Get gateway info",
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println("gatewayinfo called")
 		},

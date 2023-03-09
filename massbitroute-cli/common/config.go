@@ -1,25 +1,12 @@
 package common
 
 import (
-	"fmt"
-
 	"github.com/spf13/viper"
 )
 
 type Config struct {
-	Services Services
-	Paths    Paths
-}
-
-type Services struct {
-	Portal string
-	Fairy  string
-}
-
-type Paths struct {
-	Root           string
-	UserCredential string
-	GatewayInfo    string
+	Services    Services
+	Directories Directories
 }
 
 func ReadConfig() (*Config, error) {
@@ -33,12 +20,4 @@ func ReadConfig() (*Config, error) {
 	var config Config
 	viper.Unmarshal(&config)
 	return &config, nil
-}
-
-func (p Paths) UserCredentialPath() string {
-	return fmt.Sprintf("%s/%s", p.Root, p.UserCredential)
-}
-
-func (p Paths) GatewayInfoPath() string {
-	return fmt.Sprintf("%s/%s", p.Root, p.GatewayInfo)
 }

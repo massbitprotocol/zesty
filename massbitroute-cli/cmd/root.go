@@ -39,9 +39,9 @@ func init() {
 		log.Fatal(err)
 	}
 	portalService := services.PortalService{
-		Url: conf.Services.Portal,
+		ServiceConf: conf.Services,
 		FileService: services.FileService{
-			Path: conf.Paths,
+			Dirs: conf.Directories,
 		},
 	}
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
@@ -58,4 +58,5 @@ func init() {
 	rootCmd.AddCommand(gatewayCmd)
 	gatewayCmd.AddGroup(&cobra.Group{ID: "gateway"})
 	gatewayCmd.AddCommand(gateway.GatewayInfoCmd(conf, portalService))
+	gatewayCmd.AddCommand(gateway.GatewayListCmd(conf, portalService))
 }
