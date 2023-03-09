@@ -1,9 +1,15 @@
 package cmd
 
 import (
+	"log"
 	"os"
 
 	"github.com/spf13/cobra"
+	"massbit.io/cli/mbr/cmd/gateway"
+	"massbit.io/cli/mbr/cmd/root"
+	"massbit.io/cli/mbr/cmd/user"
+	"massbit.io/cli/mbr/common"
+	"massbit.io/cli/mbr/services"
 )
 
 var rootCmd = &cobra.Command{
@@ -14,6 +20,11 @@ var userCmd = &cobra.Command{
 	GroupID: "mbr",
 	Short:   "Group of user functions",
 }
+var gatewayCmd = &cobra.Command{
+	Use:     "gateway",
+	GroupID: "mbr",
+	Short:   "Group of gateway functions",
+}
 
 func Execute() {
 	err := rootCmd.Execute()
@@ -23,9 +34,28 @@ func Execute() {
 }
 
 func init() {
+	conf, err := common.ReadConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+	portalService := services.PortalService{
+		Url: conf.Services.Portal,
+		FileService: services.FileService{
+			Path: conf.Paths,
+		},
+	}
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.AddGroup(&cobra.Group{ID: "mbr"})
+	rootCmd.AddCommand(root.LoginCmd(conf, portalService))
+	rootCmd.AddCommand(root.LogoutCmd(conf, portalService))
+
 	// user
 	rootCmd.AddCommand(userCmd)
 	userCmd.AddGroup(&cobra.Group{ID: "user"})
+	userCmd.AddCommand(user.UserInfoCmd(conf, portalService))
+
+	// gateway
+	rootCmd.AddCommand(gatewayCmd)
+	gatewayCmd.AddGroup(&cobra.Group{ID: "gateway"})
+	gatewayCmd.AddCommand(gateway.GatewayInfoCmd(conf, portalService))
 }
