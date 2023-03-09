@@ -19,13 +19,13 @@ func LoginCmd(conf *common.Config, portalService services.PortalService) *cobra.
 		Run: func(cmd *cobra.Command, args []string) {
 			isLoggedIn, err := portalService.IsUserLoggedIn()
 			if err != nil {
-				log.Fatal(err)
+				log.Fatalln(err)
 			}
 			var loggedOut bool
 			if isLoggedIn {
 				ans, err := utils.AskBoolean("You are already logged in, do you want to logged out")
 				if err != nil {
-					log.Fatal(err)
+					log.Fatalln(err)
 				}
 				if ans {
 					loggedOut = true
@@ -37,11 +37,11 @@ func LoginCmd(conf *common.Config, portalService services.PortalService) *cobra.
 
 			email, err := utils.Ask("Please input your email: ")
 			if err != nil {
-				log.Fatal(err)
+				log.Fatalln(err)
 			}
 			password, err := utils.AskSecret("And your password: ")
 			if err != nil {
-				log.Fatal(err)
+				log.Fatalln(err)
 			}
 			fmt.Println()
 			_, err = portalService.UserLogin(email, string(password), loggedOut)

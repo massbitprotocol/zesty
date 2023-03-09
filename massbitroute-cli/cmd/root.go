@@ -36,13 +36,14 @@ func Execute() {
 func init() {
 	conf, err := common.ReadConfig()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
+	}
+	fileService := services.FileService{
+		Dirs: conf.Directories,
 	}
 	portalService := services.PortalService{
 		ServiceConf: conf.Services,
-		FileService: services.FileService{
-			Dirs: conf.Directories,
-		},
+		FileService: fileService,
 	}
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.AddGroup(&cobra.Group{ID: "mbr"})
@@ -59,4 +60,6 @@ func init() {
 	gatewayCmd.AddGroup(&cobra.Group{ID: "gateway"})
 	gatewayCmd.AddCommand(gateway.GatewayInfoCmd(conf, portalService))
 	gatewayCmd.AddCommand(gateway.GatewayListCmd(conf, portalService))
+	gatewayCmd.AddCommand(gateway.GatewayBootCmd(conf, fileService, portalService))
+	gatewayCmd.AddCommand(gateway.GatewayCurrentCmd(conf, fileService))
 }

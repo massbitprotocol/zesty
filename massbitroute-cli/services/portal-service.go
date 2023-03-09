@@ -84,6 +84,26 @@ func (s PortalService) ListGateway() (result []*models.Gateway, err error) {
 	return
 }
 
+func (s PortalService) GetGatewayDetail(gatewayId string) (result *models.Gateway, err error) {
+	request, err := s.NewAuthenticatedRequest("GET", s.ServiceConf.GatewayDetail(gatewayId))
+	if err != nil {
+		return
+	}
+	res, err := (&http.Client{}).Do(request)
+	if err != nil {
+		return
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode == 200 {
+		result = &models.Gateway{}
+		err = json.NewDecoder(res.Body).Decode(result)
+	} else {
+		return nil, utils.ResponseError(res)
+	}
+	return
+}
+
 func (s PortalService) NewAuthenticatedRequest(method string, url string) (*http.Request, error) {
 	request, err := http.NewRequest(method, url, nil)
 	if err != nil {

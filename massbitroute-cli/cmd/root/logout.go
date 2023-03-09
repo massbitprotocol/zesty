@@ -18,13 +18,13 @@ func LogoutCmd(conf *common.Config, portalService services.PortalService) *cobra
 		Run: func(cmd *cobra.Command, args []string) {
 			isLoggedIn, err := portalService.IsUserLoggedIn()
 			if err != nil {
-				log.Fatal(err)
+				log.Fatalln(err)
 			}
 			if isLoggedIn {
 				fmt.Println("Logging out...")
 				err = portalService.UserLogOut()
 				if err != nil {
-					log.Fatal(err)
+					log.Fatalln(err)
 				}
 			} else {
 				fmt.Println("You are not logged in!")

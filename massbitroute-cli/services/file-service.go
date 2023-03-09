@@ -1,10 +1,12 @@
 package services
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 
 	"massbit.io/cli/mbr/common"
+	"massbit.io/cli/mbr/models"
 	"massbit.io/cli/mbr/utils"
 )
 
@@ -76,4 +78,26 @@ func (s FileService) WriteUserCredential(token string) (err error) {
 
 func (s FileService) RemoveUserCredential() error {
 	return s.RemoveFile(s.Dirs.UserCredentialPath())
+}
+
+func (s FileService) GetCurrentGateway() (gw *models.Gateway, err error) {
+	data, err := s.ReadRootFile(s.Dirs.CurrentGateway)
+	if err != nil {
+		return
+	}
+	if string(data) == "" {
+		return nil, nil
+	}
+	gw = &models.Gateway{}
+	err = json.Unmarshal(data, gw)
+	return
+}
+
+func (s FileService) SetCurrentGateway(gw models.Gateway) (err error) {
+	data, err := json.Marshal(gw)
+	if err != nil {
+		return
+	}
+	err = s.WriteFile(s.Dirs.CurrentGatewayPath(), data)
+	return
 }

@@ -18,7 +18,7 @@ func GatewayListCmd(conf *common.Config, portalService services.PortalService) *
 		Run: func(cmd *cobra.Command, args []string) {
 			gateways, err := portalService.ListGateway()
 			if err != nil {
-				log.Fatal(err)
+				log.Fatalln(err)
 			}
 			fmt.Printf("%v gateway(s) found:\n", len(gateways))
 			for _, gateway := range gateways {

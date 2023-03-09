@@ -5,13 +5,13 @@ import "fmt"
 type Directories struct {
 	Root           string
 	UserCredential string
-	GatewayInfo    string
+	CurrentGateway string
 }
 
 func (d Directories) UserCredentialPath() string {
 	return fmt.Sprintf("%s/%s", d.Root, d.UserCredential)
 }
 
-func (d Directories) GatewayInfoPath() string {
-	return fmt.Sprintf("%s/%s", d.Root, d.GatewayInfo)
+func (d Directories) CurrentGatewayPath() string {
+	return fmt.Sprintf("%s/%s", d.Root, d.CurrentGateway)
 }
