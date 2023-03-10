@@ -9,11 +9,13 @@ import (
 	"massbit.io/cli/mbr/cmd/root"
 	"massbit.io/cli/mbr/cmd/user"
 	"massbit.io/cli/mbr/common"
+	"massbit.io/cli/mbr/configs"
 	"massbit.io/cli/mbr/services"
 )
 
 var rootCmd = &cobra.Command{
-	Use: "mbr",
+	Use:     "mbr",
+	Version: configs.Version,
 }
 var userCmd = &cobra.Command{
 	Use:     "user",
