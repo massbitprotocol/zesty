@@ -46,28 +46,34 @@ fi
 # update install openresty
 
 
-# Add OpenResty GPG key
-curl -L https://openresty.org/package/pubkey.gpg | apt-key add -
+# # Add OpenResty GPG key
+# curl -L https://openresty.org/package/pubkey.gpg | apt-key add -
 
-# Add OpenResty repository
-echo "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/openresty.list
+# # Add OpenResty repository
+# echo "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/openresty.list
 
-# Update package lists again
-apt update
+# # Update package lists again
+# apt update
 
-# Install OpenResty
-apt-get install openresty=1.19.9.1-1~$(lsb_release -sc) -y
+# # Install OpenResty
+# apt-get install openresty=1.19.9.1-1~$(lsb_release -sc) -y
 
 
-# Print version info
-echo "OpenResty $(openresty -v | cut -d ' ' -f 2) installed successfully!"
+# # Print version info
+# echo "OpenResty $(openresty -v | cut -d ' ' -f 2) installed successfully!"
 
 
 # load modules so
 rm -rf /tmp/zesty
-git clone https://github.com/massbitprotocol/zesty.git -b minh-dev /tmp/zesty
+git clone https://github.com/massbitprotocol/zesty.git -b hoang-dev /tmp/zesty
+
+mkdir -p /etc/nginx/conf.d
+mkdir -p /usr/local/openresty/nginx/extensions
+mkdir -p /usr/local/openresty/nginx/extensions
+mkdir -p /usr/local/openresty/nginx/conf
 
 
+cp -r /tmp/zesty/volume/bin/openresty/nginx/sbin/nginx /usr/bin/
 cp -r /tmp/zesty/volume/nginx.conf   /usr/local/openresty/nginx/conf/nginx.conf
 cp -r /tmp/zesty/volume/modules.conf   /usr/local/openresty/nginx/conf/modules.conf
 cp -r /tmp/zesty/volume/conf   /etc/nginx/conf.d
@@ -77,4 +83,5 @@ cp -r /tmp/zesty/volume/modules   /usr/local/openresty/nginx/extensions
 
 
 
-
+systemctl daemon-reload
+systemctl start openresty
