@@ -1,7 +1,11 @@
 package common
 
 import (
+	"log"
+	"os"
+
 	"github.com/spf13/viper"
+	"massbit.io/cli/mbr/utils"
 )
 
 type Config struct {
@@ -9,15 +13,24 @@ type Config struct {
 	Directories Directories
 }
 
-func ReadConfig() (*Config, error) {
-	viper.SetConfigFile("configs/env.yaml")
+func ReadConfig() (config *Config, err error) {
+	var configFile = os.Getenv("MBR_CONFIG_FILE")
+	if configFile == "" {
+		configFile = "configs/env.yaml"
+	} else {
+		configFile, err = utils.MkHomePath(configFile)
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}
+	viper.SetConfigFile(configFile)
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
-	err := viper.ReadInConfig()
+	// viper.AddConfigPath(".")
+	err = viper.ReadInConfig()
 	if err != nil {
 		return nil, err
 	}
-	var config Config
+	config = &Config{}
 	viper.Unmarshal(&config)
-	return &config, nil
+	return
 }
