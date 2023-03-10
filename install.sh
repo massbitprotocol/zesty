@@ -72,14 +72,15 @@ mkdir -p /etc/nginx/conf.d
 mkdir -p /usr/local/openresty/nginx/extensions
 mkdir -p /usr/local/openresty/nginx/conf
 mkdir -p /var/run/openresty/nginx-client-body
-
+mkdir -p /etc/gateway/
+mkdir -p /usr/local/openresty/nginx/logs/stat/ 
 cp -r /tmp/zesty/volume/bin/openresty /usr/local/
 
 cp -r /tmp/zesty/volume/bin/openresty/nginx/sbin/nginx /usr/bin/
 cp -r /tmp/zesty/volume/nginx.conf   /usr/local/openresty/nginx/conf/nginx.conf
 cp -r /tmp/zesty/volume/modules.conf   /usr/local/openresty/nginx/conf/modules.conf
-cp -r /tmp/zesty/volume/conf   /etc/nginx/conf.d
-cp -r /tmp/zesty/volume/ssl   /etc/gateway/ssl
+cp -r /tmp/zesty/volume/conf/*   /etc/nginx/conf.d/
+cp -r /tmp/zesty/volume/ssl   /etc/gateway/
 cp -r /tmp/zesty/volume/data   /usr/local/openresty/nginx/data
 cp -r /tmp/zesty/volume/modules/*   /usr/local/openresty/nginx/extensions
 cp /tmp/zesty/volume/conf/systemd/openresty.service  /etc/systemd/system/openresty.service
