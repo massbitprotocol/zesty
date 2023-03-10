@@ -22,3 +22,7 @@ func (s Services) GatewayListFull() string {
 func (s Services) GatewayDetail(gatewayId string) string {
 	return fmt.Sprintf("%s/%s", s.GatewayURL(), gatewayId)
 }
+
+func (s Services) GatewayBoot() string {
+	return fmt.Sprintf("%s/boot", s.GatewayURL())
+}

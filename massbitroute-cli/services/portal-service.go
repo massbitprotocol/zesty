@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"strings"
 
@@ -66,7 +67,7 @@ func (s PortalService) UserLogOut() (err error) {
 }
 
 func (s PortalService) ListGateway() (result []*models.Gateway, err error) {
-	request, err := s.NewAuthenticatedRequest("GET", s.ServiceConf.GatewayListFull())
+	request, err := s.NewAuthenticatedRequest("GET", s.ServiceConf.GatewayListFull(), nil)
 	if err != nil {
 		return
 	}
@@ -85,7 +86,7 @@ func (s PortalService) ListGateway() (result []*models.Gateway, err error) {
 }
 
 func (s PortalService) GetGatewayDetail(gatewayId string) (result *models.Gateway, err error) {
-	request, err := s.NewAuthenticatedRequest("GET", s.ServiceConf.GatewayDetail(gatewayId))
+	request, err := s.NewAuthenticatedRequest("GET", s.ServiceConf.GatewayDetail(gatewayId), nil)
 	if err != nil {
 		return
 	}
@@ -104,8 +105,31 @@ func (s PortalService) GetGatewayDetail(gatewayId string) (result *models.Gatewa
 	return
 }
 
-func (s PortalService) NewAuthenticatedRequest(method string, url string) (*http.Request, error) {
-	request, err := http.NewRequest(method, url, nil)
+func (s PortalService) GatewayBoot(gatewayId string) (err error) {
+	data := map[string]string{
+		"gatewayId": gatewayId,
+	}
+	txt, err := json.Marshal(data)
+	if err != nil {
+		return
+	}
+	request, err := s.NewAuthenticatedRequest("POST", s.ServiceConf.GatewayBoot(), strings.NewReader(string(txt)))
+	if err != nil {
+		return
+	}
+	res, err := (&http.Client{}).Do(request)
+	if err != nil {
+		return
+	}
+	defer res.Body.Close()
+	if res.StatusCode < 200 {
+		return utils.ResponseError(res)
+	}
+	return
+}
+
+func (s PortalService) NewAuthenticatedRequest(method string, url string, body io.Reader) (*http.Request, error) {
+	request, err := http.NewRequest(method, url, body)
 	if err != nil {
 		return nil, err
 	}

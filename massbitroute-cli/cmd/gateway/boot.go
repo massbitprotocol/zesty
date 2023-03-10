@@ -43,11 +43,13 @@ func GatewayBootCmd(
 					return
 				}
 			}
-			fmt.Printf("This machine was set as gateway %s\n", gw.Id)
+			if err = portalService.GatewayBoot(gatewayId); err != nil {
+				log.Fatalln(err)
+			}
 			if err = fileService.SetCurrentGateway(*gw); err != nil {
 				log.Fatalln(err)
 			}
-			// TODO: boot this gateway
+			fmt.Printf("This machine was set as gateway %s\n", gw.Id)
 		},
 	}
 	cmd.Flags().StringVar(&gatewayId, "id", "", "Gateway Id")
