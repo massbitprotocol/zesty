@@ -9,6 +9,8 @@ services:
       context: .
       args:
         - BUILD_ENV=uat
+        - TARGET_OS=linux
+        - TARGET_ARCHITECTURE=amd64
     command: sleep infinity
     ports: 
     - "9000:80"
