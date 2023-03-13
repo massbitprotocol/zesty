@@ -15,7 +15,7 @@ import (
 )
 
 type PortalService struct {
-	ServiceConf common.Services
+	Conf        *common.Config
 	FileService FileService
 }
 
@@ -36,7 +36,7 @@ func (s PortalService) UserLogin(email string, password string, loggedOut bool) 
 		return
 	}
 	// Get the data
-	response, err := http.Post(s.ServiceConf.AuthLogin(), "application/json", bytes.NewBuffer(json_data))
+	response, err := http.Post(s.Conf.Services.AuthLogin(), "application/json", bytes.NewBuffer(json_data))
 	if err != nil {
 		return
 	}
@@ -67,7 +67,7 @@ func (s PortalService) UserLogOut() (err error) {
 }
 
 func (s PortalService) ListGateway() (result []*models.Gateway, err error) {
-	request, err := s.NewAuthenticatedRequest("GET", s.ServiceConf.GatewayListFull(), nil)
+	request, err := s.NewAuthenticatedRequest("GET", s.Conf.Services.GatewayListFull(), nil)
 	if err != nil {
 		return
 	}
@@ -86,7 +86,7 @@ func (s PortalService) ListGateway() (result []*models.Gateway, err error) {
 }
 
 func (s PortalService) GetGatewayDetail(gatewayId string) (result *models.Gateway, err error) {
-	request, err := s.NewAuthenticatedRequest("GET", s.ServiceConf.GatewayDetail(gatewayId), nil)
+	request, err := s.NewAuthenticatedRequest("GET", s.Conf.Services.GatewayDetail(gatewayId), nil)
 	if err != nil {
 		return
 	}
@@ -113,7 +113,7 @@ func (s PortalService) GatewayBoot(gatewayId string) (err error) {
 	if err != nil {
 		return
 	}
-	request, err := s.NewAuthenticatedRequest("POST", s.ServiceConf.GatewayBoot(), strings.NewReader(string(txt)))
+	request, err := s.NewAuthenticatedRequest("POST", s.Conf.Services.GatewayBoot(), strings.NewReader(string(txt)))
 	if err != nil {
 		return
 	}

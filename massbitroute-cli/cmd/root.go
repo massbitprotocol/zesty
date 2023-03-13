@@ -41,10 +41,10 @@ func init() {
 		log.Fatalln(err)
 	}
 	fileService := services.FileService{
-		Dirs: conf.Directories,
+		Conf: conf,
 	}
 	portalService := services.PortalService{
-		ServiceConf: conf.Services,
+		Conf:        conf,
 		FileService: fileService,
 	}
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")

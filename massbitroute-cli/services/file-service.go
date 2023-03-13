@@ -11,11 +11,11 @@ import (
 )
 
 type FileService struct {
-	Dirs common.Directories
+	Conf *common.Config
 }
 
 func (s FileService) MkdirRoot() error {
-	path, err := utils.MkHomePath(s.Dirs.Root)
+	path, err := utils.MkHomePath(s.Conf.Directories.Root)
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func (s FileService) MkdirRoot() error {
 }
 
 func (s FileService) ReadRootFile(path string) (data []byte, err error) {
-	path, err = utils.MkHomePath(fmt.Sprintf("%s/%s", s.Dirs.Root, path))
+	path, err = utils.MkHomePath(fmt.Sprintf("%s/%s", s.Conf.Directories.Root, path))
 	if err != nil {
 		return
 	}
@@ -61,7 +61,7 @@ func (s FileService) RemoveFile(path string) (err error) {
 }
 
 func (s FileService) ReadUserCredential() (token string, err error) {
-	data, err := s.ReadRootFile(s.Dirs.UserCredential)
+	data, err := s.ReadRootFile(s.Conf.Directories.UserCredential)
 	if err != nil {
 		return
 	}
@@ -72,16 +72,16 @@ func (s FileService) ReadUserCredential() (token string, err error) {
 
 func (s FileService) WriteUserCredential(token string) (err error) {
 	// TODO: encrypt this token
-	err = s.WriteFile(s.Dirs.UserCredentialPath(), []byte(token))
+	err = s.WriteFile(s.Conf.Directories.UserCredentialPath(), []byte(token))
 	return
 }
 
 func (s FileService) RemoveUserCredential() error {
-	return s.RemoveFile(s.Dirs.UserCredentialPath())
+	return s.RemoveFile(s.Conf.Directories.UserCredentialPath())
 }
 
 func (s FileService) GetCurrentGateway() (gw *models.Gateway, err error) {
-	data, err := s.ReadRootFile(s.Dirs.CurrentGateway)
+	data, err := s.ReadRootFile(s.Conf.Directories.CurrentGateway)
 	if err != nil {
 		return
 	}
@@ -98,6 +98,6 @@ func (s FileService) SetCurrentGateway(gw models.Gateway) (err error) {
 	if err != nil {
 		return
 	}
-	err = s.WriteFile(s.Dirs.CurrentGatewayPath(), data)
+	err = s.WriteFile(s.Conf.Directories.CurrentGatewayPath(), data)
 	return
 }
