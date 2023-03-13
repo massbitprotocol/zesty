@@ -4,7 +4,6 @@ import "fmt"
 
 type Services struct {
 	Portal string
-	Fairy  string
 }
 
 func (s Services) AuthLogin() string {

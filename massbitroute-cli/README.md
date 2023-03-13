@@ -1,3 +1,11 @@
 Run `strip -s <file>` after build to reduce the size of binary file
 
-CLI will read config from environment variable `MBR_CONFIG_FILE`, if don't exist, it will read the default config
+1. Build CLI with environment inside (prod or uat)
+```
+go build -tags <env>
+```
+
+2. Load environment dynamically: cLI will read config from environment variable `MBR_CONFIG_FILE`, if don't exist, it will use the default config inside the binary
+```
+export MBR_CONFIG_FILE=~/.mbr
+```

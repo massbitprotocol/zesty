@@ -51,6 +51,7 @@ func init() {
 	rootCmd.AddGroup(&cobra.Group{ID: "mbr"})
 	rootCmd.AddCommand(root.LoginCmd(conf, portalService))
 	rootCmd.AddCommand(root.LogoutCmd(conf, portalService))
+	rootCmd.AddCommand(root.EnvCmd())
 
 	// user
 	rootCmd.AddCommand(userCmd)

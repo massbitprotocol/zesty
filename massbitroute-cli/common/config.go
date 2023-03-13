@@ -9,14 +9,17 @@ import (
 )
 
 type Config struct {
+	Env         string
 	Services    Services
 	Directories Directories
 }
 
+var DefaultConfig Config
+
 func ReadConfig() (config *Config, err error) {
 	var configFile = os.Getenv("MBR_CONFIG_FILE")
 	if configFile == "" {
-		configFile = "configs/env.yaml"
+		return &DefaultConfig, nil
 	} else {
 		configFile, err = utils.MkHomePath(configFile)
 		if err != nil {
