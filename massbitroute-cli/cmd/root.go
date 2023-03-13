@@ -62,7 +62,7 @@ func init() {
 	rootCmd.AddCommand(gatewayCmd)
 	gatewayCmd.AddGroup(&cobra.Group{ID: "gateway"})
 	gatewayCmd.AddCommand(gateway.GatewayInfoCmd(conf, portalService))
-	gatewayCmd.AddCommand(gateway.GatewayListCmd(conf, portalService))
+	gatewayCmd.AddCommand(gateway.GatewayListCmd(conf, fileService, portalService))
 	gatewayCmd.AddCommand(gateway.GatewayBootCmd(conf, fileService, portalService))
 	gatewayCmd.AddCommand(gateway.GatewayCurrentCmd(conf, fileService))
 }
