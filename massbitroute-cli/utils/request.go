@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -17,6 +18,12 @@ func GetResponseBody(res *http.Response) (body string, err error) {
 }
 
 func ResponseError(res *http.Response) error {
+	if res.StatusCode == 401 {
+		return errors.New("unauthorized")
+	}
+	if res.StatusCode == 403 {
+		return errors.New("forbidden action")
+	}
 	if body, err := GetResponseBody(res); err != nil {
 		return err
 	} else {
