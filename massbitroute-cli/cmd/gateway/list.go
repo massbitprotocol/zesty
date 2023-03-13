@@ -10,7 +10,7 @@ import (
 )
 
 // GatewayInfoCmd represents the gatewayinfo command
-func GatewayListCmd(conf *common.Config, portalService services.PortalService) *cobra.Command {
+func GatewayListCmd(conf *common.Config, fileService services.FileService, portalService services.PortalService) *cobra.Command {
 	return &cobra.Command{
 		Use:     "list",
 		GroupID: "gateway",
@@ -20,10 +20,17 @@ func GatewayListCmd(conf *common.Config, portalService services.PortalService) *
 			if err != nil {
 				log.Fatalln(err)
 			}
+			current, err := fileService.GetCurrentGateway()
+			if err != nil {
+				log.Fatalln(err)
+			}
 			fmt.Printf("%v gateway(s) found:\n", len(gateways))
 			for _, gateway := range gateways {
-				// TODO: mark current gateway
-				fmt.Printf("- %s (%s)\n", gateway.Name, gateway.Id)
+				fmt.Printf("- %s (%s)", gateway.Name, gateway.Id)
+				if current != nil && current.Id == gateway.Id {
+					fmt.Print("    => current gateway")
+				}
+				fmt.Println()
 			}
 		},
 	}
