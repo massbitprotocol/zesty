@@ -1,20 +1,17 @@
 version: '3'
 
 services:
-  dev:
+  massbitroute-cli:
     container_name: massbitroute-cli
     image: massbitroute-cli:1.0.0
     build:
       dockerfile: Dockerfile
       context: .
-      target: development
+      args:
+        - BUILD_ENV=uat
     command: sleep infinity
     ports: 
     - "9000:80"
-    volumes:
-      - .:/app
-    extra_hosts:
-    - "host.docker.internal:host-gateway"
     restart: unless-stopped
 
 networks:

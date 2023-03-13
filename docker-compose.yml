@@ -30,6 +30,8 @@ services:
       - ./volume/tmp:/usr/local/openresty/nginx/tmp:rw
 
       - ./volume/mbr:/.mbr:rw
+
+      # - ./massbitroute-cli/mbr:/usr/bin/mbr:rwX
     environment:
       - MBR_ENV=keiko
       - ID=

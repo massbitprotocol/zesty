@@ -1,11 +1,19 @@
-FROM golang:1.19.2-bullseye as development
+FROM golang:1.19.2-bullseye
+
+ARG BUILD_ENV
 
 WORKDIR /app
 
 COPY . .
 
-# nginx
-RUN apt update && apt install nginx -y 
-RUN apt update && apt install nginx  rsync -y 
+RUN chmod +x ./build.sh
+
+RUN ./build.sh $BUILD_ENV
+
+RUN apt update && apt install nginx -y
+
+RUN apt-get install vim -y
+
 COPY test/gateway.conf /etc/nginx/sites-enabled/default
-RUN nginx -s reload
+
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
