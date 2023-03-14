@@ -22,7 +22,7 @@ local function notfound()
   ngx.exit(404)
 end
 local function authenticate_v1(api) 
-  ngx.log(ngx.ERR, "Call authenticate for api" .. api)
+  ngx.log(ngx.NOTICE, "Call authenticate for api" .. api)
   local apiInfo = dapps:get(api);
   if apiInfo == nil then
     ngx.log(ngx.ERR, "Api notfound: " .. api or "")
