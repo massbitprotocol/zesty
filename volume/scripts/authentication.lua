@@ -16,6 +16,17 @@ local function notAuthorized()
 end
 
 local function authenticate()
+  ngx.log(ngx.ERR, "Call authenticate")
+  local api = ngx.var.api;
+  let apiInfo = dapps:get(api);
+  if apiInfo == nil then
+    ngx.log(ngx.ERR, "Api notfound: " .. api)
+    ngx.status = 404
+    ngx.header.content_type = 'application/json'
+    ngx.print('{"Err":"Api not found"}')
+    ngx.exit(404)
+  end  
+  --[[
   local auth = ngx.var.http_authorization
   if auth == nil or auth:sub(0, 7) ~= 'SHA256 ' then
     return notAuthorized()
@@ -34,6 +45,7 @@ local function authenticate()
   if auth:sub(8) ~= str.to_hex(hasher:final()) then
     return notAuthorized()
   end
+  ]]--
 end
 
 return authenticate

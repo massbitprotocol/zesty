@@ -1,6 +1,6 @@
 local cjson = require "cjson";
 local upstreams = ngx.shared.upstreams;
-local dapps = ngx.shared.dapps; 
+
 -- Return next datasource and assign to proxy
 
 function get_next_upstream() 
