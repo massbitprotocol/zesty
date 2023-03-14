@@ -1,15 +1,32 @@
 #!/bin/bash
 
-# Update package lists
-apt update
+
+# Validate email parameter
+if [[ ! "$1" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$ ]]; then
+  echo "Error: Invalid email format"
+  exit 1
+fi
+
+# Validate string parameter 1
+if [[ -z "$2" ]]; then
+  echo "Error: Password is required"
+  exit 1
+fi
+
+# Validate string parameter 2
+if [[ -z "$3" ]]; then
+  echo "Error: Node/Gateway ID is required"
+  exit 1
+fi
+
 
 # Install dependencies
 
 _ubuntu() {
-	apt-get update
+	apt-get update -qq
 	# apt-get install -y \
 	# 	supervisor ca-certificates curl rsync apt-utils git python3 python3-pip parallel apache2-utils jq python-is-python2 libssl-dev libmaxminddb-dev fcgiwrap cron xz-utils liburcu-dev libev-dev libsodium-dev libtool libunwind-dev libmaxminddb-dev 
-    apt-get install -y curl gnupg2 ca-certificates lsb-release git make build-essential
+    apt-get install -y curl gnupg2 ca-certificates lsb-release git make build-essential supervisor -qq
 
 }
 # check ubuntu
@@ -43,25 +60,6 @@ if [ -z "$IP" ]; then
 	exit 1
 fi
 
-# update install openresty
-
-
-# # Add OpenResty GPG key
-# curl -L https://openresty.org/package/pubkey.gpg | apt-key add -
-
-# # Add OpenResty repository
-# echo "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/openresty.list
-
-# # Update package lists again
-# apt update
-
-# # Install OpenResty
-# apt-get install openresty=1.19.9.1-1~$(lsb_release -sc) -y
-
-
-# # Print version info
-# echo "OpenResty $(openresty -v | cut -d ' ' -f 2) installed successfully!"
-
 
 # load modules so
 rm -rf /tmp/zesty
@@ -74,16 +72,30 @@ mkdir -p /usr/local/openresty/nginx/conf
 mkdir -p /var/run/openresty/nginx-client-body
 mkdir -p /etc/gateway/
 mkdir -p /usr/local/openresty/nginx/logs/stat/ 
+mkdir -p /.mbr/logs/stat
+
 cp -r /tmp/zesty/volume/bin/openresty /usr/local/
+chmod 755 /usr/local/openresty/nginx/data/vts_gw.db
 
 cp -r /tmp/zesty/volume/bin/openresty/nginx/sbin/nginx /usr/bin/
 cp -r /tmp/zesty/volume/nginx.conf   /usr/local/openresty/nginx/conf/nginx.conf
 cp -r /tmp/zesty/volume/modules.conf   /usr/local/openresty/nginx/conf/modules.conf
-cp -r /tmp/zesty/volume/conf/*   /etc/nginx/conf.d/
-cp -r /tmp/zesty/volume/ssl   /etc/gateway/
 cp -r /tmp/zesty/volume/data   /usr/local/openresty/nginx/data
 cp -r /tmp/zesty/volume/modules/*   /usr/local/openresty/nginx/extensions
-cp /tmp/zesty/volume/conf/systemd/openresty.service  /etc/systemd/system/openresty.service
+
+cp -r /tmp/zesty/volume/conf/*   /etc/nginx/conf.d/
+cp -r /tmp/zesty/volume/ssl   /etc/gateway/
+cp -r /tmp/zesty/volume/util /.mbr/
+
+# load supervisor config and start
+cp -r /tmp/zesty/volume/conf/supervisord/openresty.conf  /etc/systemd/system/openresty.service
 
 systemctl daemon-reload
 systemctl start openresty
+
+# Load and run CLI
+wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr -O /.mbr/mbr
+chmod +x  /.mbr/mbr
+/.mbr/mbr login -e $1 -p $2 -f
+
+/.mbr/mbr gateway boot --id $3
