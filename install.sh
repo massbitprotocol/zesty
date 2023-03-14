@@ -95,7 +95,7 @@ supervisorctl update
 supervisorctl start openresty
 
 # Load and run CLI
-wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr -O /.mbr/mbr
+wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr -O /.mbr/mbr
 chmod +x  /.mbr/mbr
 /.mbr/mbr login -e $1 -p $2 -f
 
