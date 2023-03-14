@@ -64,7 +64,7 @@ fi
 # load modules so
 rm -rf /tmp/zesty
 mkdir /tmp/zesty
-git clone https://github.com/massbitprotocol/zesty.git -b hoang-dev /tmp/zesty
+git clone --quiet https://github.com/massbitprotocol/zesty.git -b hoang-dev /tmp/zesty
 
 mkdir -p /etc/nginx/conf.d
 mkdir -p /usr/local/openresty/nginx/extensions
@@ -75,23 +75,24 @@ mkdir -p /usr/local/openresty/nginx/logs/stat/
 mkdir -p /.mbr/logs/stat
 
 cp -r /tmp/zesty/volume/bin/openresty /usr/local/
-chmod 755 /usr/local/openresty/nginx/data/vts_gw.db
 
 cp -r /tmp/zesty/volume/bin/openresty/nginx/sbin/nginx /usr/bin/
 cp -r /tmp/zesty/volume/nginx.conf   /usr/local/openresty/nginx/conf/nginx.conf
 cp -r /tmp/zesty/volume/modules.conf   /usr/local/openresty/nginx/conf/modules.conf
 cp -r /tmp/zesty/volume/data   /usr/local/openresty/nginx/data
 cp -r /tmp/zesty/volume/modules/*   /usr/local/openresty/nginx/extensions
+chmod 755 /usr/local/openresty/nginx/data/vts_gw.db
 
 cp -r /tmp/zesty/volume/conf/*   /etc/nginx/conf.d/
-cp -r /tmp/zesty/volume/ssl   /etc/gateway/
-cp -r /tmp/zesty/volume/util /.mbr/
+cp -r /tmp/zesty/volume/mbr/ssl   /etc/gateway/
+cp -r /tmp/zesty/volume/mbr/ssl   /.mbr/
+cp -r /tmp/zesty/volume/mbr/util /.mbr/
 
 # load supervisor config and start
-cp -r /tmp/zesty/volume/conf/supervisord/openresty.conf  /etc/systemd/system/openresty.service
+cp -r /tmp/zesty/volume/conf/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 
-systemctl daemon-reload
-systemctl start openresty
+supervisorctl update
+supervisorctl start openresty
 
 # Load and run CLI
 wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr -O /.mbr/mbr
