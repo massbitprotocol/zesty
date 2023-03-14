@@ -11,11 +11,12 @@ services:
     # command: ""
     # network_mode: "host"
     ports:
-      - 8080:80
+      - 80:80
     volumes:
        - ./volume/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
        - ./volume/modules.conf:/usr/local/openresty/nginx/conf/modules.conf
        - ./volume/conf:/usr/local/openresty/nginx/conf/include:rw
+       - ./volume/conf/subconf:/usr/local/openresty/nginx/conf/subconf:rw
        - ./volume/data:/usr/local/openresty/nginx/data:rw
        - ./volume/logs:/usr/local/openresty/nginx/logs:rw
        - ./volume/modules:/usr/local/openresty/nginx/extensions:rw

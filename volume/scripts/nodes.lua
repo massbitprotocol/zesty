@@ -16,4 +16,4 @@ end
 local body_string = cjson.encode(body);
 ngx.log(ngx.ERR, body_string);
 upstreams:set("nodes", body_string);
-ngx.say("Update nodes list");
+ngx.say("Updated nodes list successfully");
