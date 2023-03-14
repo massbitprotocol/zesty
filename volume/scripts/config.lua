@@ -54,7 +54,7 @@ local function dapps_delete(body)
     -- Delete dapps
     local result = {};
     for i = 1, #body do
-        local success, err, forcible = dapps:delete(dapp.id, nil)
+        local success, err, forcible = dapps:delete(body[i], nil)
         if success then
         result[dapp.id] = "OK"
         else
