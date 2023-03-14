@@ -13,7 +13,10 @@ local function get_next_upstream()
     local nodes = cjson.decode(node_string);
     if (nodes and #nodes > 0) 
     then 
-      return nodes[1]["dataSource"];
+      math.randomseed(os.time())
+      local index = math.random(#nodes)
+      ngx.log(ngx.ERR, "Use datasource at index : " .. index .. ":" .. nodes[index]["dataSource"])
+      return nodes[index]["dataSource"]
     end    
   end
 end

@@ -75,7 +75,7 @@ end
 
 local function handler() 
     local request_uri = ngx.var.request_uri;
-    -- ngx.log(ngx.ERR, "Request uri:".. request_uri)
+    --ngx.log(ngx.ERR, "Request uri:".. request_uri)
     -- get request content
     ngx.req.read_body()
     local success, json_body = pcall(cjson.decode, ngx.var.request_body)
@@ -85,8 +85,7 @@ local function handler()
         ngx.exit(ngx.HTTP_BAD_REQUEST)
         return
     end
-    ngx.log(ngx.ERR, "Request Body:".. cjson.encode(json_body))
-
+    -- ngx.log(ngx.ERR, "Request Body:".. cjson.encode(json_body))
     local p1, p2 = request_uri:match('/config/([-_a-zA-Z0-9]+)/([-_a-zA-Z0-9]+)')  
     if p1 == "dapps" then 
         if p2 == "create" then
