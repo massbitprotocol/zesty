@@ -8,16 +8,10 @@ services:
     privileged: true
     restart: unless-stopped
     image: openresty/openresty:1.19.9.1-14-focal
-    # image: zesty:v0.0.1
+    # image: massbit/massbitroute_zesty:v0.0.1-dev
     container_name: mbr_gateway
     networks:
       - mbr_test_network_1
-
-    #image: massbit/massbitroute_gateway
-
-    # command: 'sleep infinity'
-    # command: ""
-    # network_mode: "host"
     ports:
       - 80:80
     volumes:
@@ -35,7 +29,7 @@ services:
       - ID=
       - USER_ID=
       - BLOCKCHAIN=
-      - NETWORK
+      - NETWORK=
       - ZONE=
       - APP_KEY=
       - INSTALL_CMD=
