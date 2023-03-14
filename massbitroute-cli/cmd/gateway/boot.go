@@ -11,6 +11,7 @@ import (
 )
 
 var gatewayId string
+var forceBoot bool
 
 // GatewayInfoCmd represents the gatewayinfo command
 func GatewayBootCmd(
@@ -35,12 +36,14 @@ func GatewayBootCmd(
 				log.Fatalln(err)
 			}
 			if current != nil {
-				yes, err := utils.AskBoolean(fmt.Sprintf("This machine was set as gateway %s (%s), do you want to replace", gw.Name, gw.Id))
-				if err != nil {
-					log.Fatalln(err)
-				}
-				if !yes {
-					return
+				if !forceBoot {
+					yes, err := utils.AskBoolean(fmt.Sprintf("This machine was set as gateway %s (%s), do you want to replace", gw.Name, gw.Id))
+					if err != nil {
+						log.Fatalln(err)
+					}
+					if !yes {
+						return
+					}
 				}
 			}
 			if err = portalService.GatewayBoot(gatewayId); err != nil {
@@ -54,6 +57,7 @@ func GatewayBootCmd(
 	}
 	cmd.Flags().StringVar(&gatewayId, "id", "", "Gateway Id")
 	cmd.MarkFlagRequired("id")
+	cmd.Flags().BoolVarP(&forceBoot, "force-boot", "f", false, "Force boot if this machine already a gateway")
 
 	return cmd
 }

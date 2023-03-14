@@ -54,6 +54,8 @@ func LoginCmd(conf *common.Config, portalService services.PortalService) *cobra.
 					log.Fatalln(err)
 				}
 				password = string(passwordTmp)
+			} else {
+				fmt.Println()
 			}
 			_, err = portalService.UserLogin(email, string(password), loggedOut)
 			if err == nil {

@@ -122,7 +122,7 @@ func (s PortalService) GatewayBoot(gatewayId string) (err error) {
 		return
 	}
 	defer res.Body.Close()
-	if res.StatusCode < 200 {
+	if res.StatusCode != 200 && res.StatusCode != 201 {
 		return utils.ResponseError(res)
 	}
 	return
