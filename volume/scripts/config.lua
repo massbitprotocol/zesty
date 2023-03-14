@@ -3,25 +3,25 @@ local upstreams = ngx.shared.upstreams;
 local gw = ngx.shared._GW_;
 local dapps = ngx.shared.dapps;
 
-function secret_key_update(body) 
+local function secret_key_update(body) 
     gw:set("secretkey", body["secretKey"])
     ngx.say("OK: Updated secretKey successfully");
 end 
 
-function nodes_update(body) 
+local function nodes_update(body) 
     local body_string = cjson.encode(body);
     ngx.log(ngx.ERR, body_string);
     upstreams:set("nodes", body_string);
     ngx.say("OK: Updated nodes list successfully");
 end
 
-function dapps_create(dapps) 
+local function dapps_create(body) 
     -- Create new dapps
     local result = {};
     ngx.header["Content-type"] = 'application/json'
-    ngx.say(#dapps)
-    for i = 1, #dapps do
-        local dapp = dapps[i]
+    ngx.say(#body)
+    for i = 1, #body do
+        local dapp = body[i]
         local success, err, forcible = dapps:add(dapp.id, cjson.encode(dapp))
         if success then
         result[dapp.id] = "OK"
@@ -33,11 +33,11 @@ function dapps_create(dapps)
     ngx.say(output)
 end
 
-function dapps_update(dapps) 
+local function dapps_update(body) 
     -- Update dapps
     local result = {};
-    for i = 1, #dapps do
-        local dapp = dapps[i]
+    for i = 1, #body do
+        local dapp = body[i]
         local success, err, forcible = dapps:set(dapp.id, cjson.encode(dapp))
         if success then
         result[dapp.id] = "OK"
@@ -50,10 +50,10 @@ function dapps_update(dapps)
     ngx.say(output)
 end    
 
-function dapps_delete(dapps) 
+local function dapps_delete(body) 
     -- Delete dapps
     local result = {};
-    for i = 1, #dapps do
+    for i = 1, #body do
         local success, err, forcible = dapps:delete(dapp.id, nil)
         if success then
         result[dapp.id] = "OK"
@@ -66,7 +66,7 @@ function dapps_delete(dapps)
     ngx.say(output)
 end
 
-function notfound() 
+local function notfound() 
     ngx.status = 404
     ngx.header.content_type = 'application/json'
     ngx.print('{"Err":"Api not found"}')
@@ -86,7 +86,7 @@ local function handler()
         return
     end
     ngx.log(ngx.ERR, "Request Body:".. cjson.encode(json_body))
-    
+
     local p1, p2 = request_uri:match('/config/([-_a-zA-Z0-9]+)/([-_a-zA-Z0-9]+)')  
     if p1 == "dapps" then 
         if p2 == "create" then
