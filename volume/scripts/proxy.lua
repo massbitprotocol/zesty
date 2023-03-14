@@ -3,7 +3,7 @@ local upstreams = ngx.shared.upstreams;
 
 -- Return next datasource and assign to proxy
 
-function get_next_upstream() 
+local function get_next_upstream() 
   local node_string = upstreams:get("nodes");
   if (node_string == nil) 
   then
@@ -17,8 +17,7 @@ function get_next_upstream()
     end    
   end
 end
+return get_next_upstream
 
-ngx.var.proxy = get_next_upstream();
--- ngx.log(ngx.ERR, ngx.var.proxy);
 
 
