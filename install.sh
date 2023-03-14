@@ -53,13 +53,6 @@ else
 	exit 0
 fi
 
-IP="$(curl http://ipv4.icanhazip.com)"
-
-if [ -z "$IP" ]; then
-	echo "Your IP is unknown"
-	exit 1
-fi
-
 
 # load modules so
 rm -rf /tmp/zesty
