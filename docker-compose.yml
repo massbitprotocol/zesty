@@ -29,7 +29,7 @@ services:
        - ./volume/logs:/usr/local/openresty/nginx/logs:rw
        - ./volume/modules:/usr/local/openresty/nginx/extensions:rw
        - ./volume/tmp:/usr/local/openresty/nginx/tmp:rw
-       - ./volume/scripts:/usr/local/openresty/scripts:rw
+       - ./volume/scripts:/usr/local/openresty/lualib/mbr:rw
     environment:
       - MBR_ENV=keiko
       - ID=
