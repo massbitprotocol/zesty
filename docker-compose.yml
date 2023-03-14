@@ -1,10 +1,18 @@
-# version: "2"
+version: "3"
+networks:
+  mbr_test_network_1:
+    driver: bridge
+
 services:
-  gateway:
+  mbr_gateway:
     privileged: true
     restart: unless-stopped
     image: openresty/openresty:1.19.9.1-14-focal
+    # image: zesty:v0.0.1
     container_name: mbr_gateway
+    networks:
+      - mbr_test_network_1
+
     #image: massbit/massbitroute_gateway
 
     # command: 'sleep infinity'
@@ -31,3 +39,13 @@ services:
       - ZONE=
       - APP_KEY=
       - INSTALL_CMD=
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    networks:
+      - mbr_test_network_1
+    volumes:
+      - ./prometheus/config.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
