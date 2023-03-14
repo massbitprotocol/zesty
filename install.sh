@@ -31,7 +31,7 @@ _ubuntu() {
 }
 # check ubuntu
 if [ -f /etc/os-release ]; then
-	. /etc/os-release
+	. /etc/os-rele`ase
 	OS=$NAME
 	VER=$VERSION_ID
 elif type lsb_release >/dev/null 2>&1; then
@@ -76,7 +76,9 @@ cp -r /tmp/zesty/volume/data   /usr/local/openresty/nginx/data
 cp -r /tmp/zesty/volume/modules/*   /usr/local/openresty/nginx/extensions
 chmod 755 /usr/local/openresty/nginx/data/vts_gw.db
 
-cp -r /tmp/zesty/volume/conf/*   /etc/nginx/conf.d/
+cp -r /tmp/zesty/volume/conf   /usr/local/openresty/nginx/conf/include
+cp -r /tmp/zesty/volume/conf/subconf   /usr/local/openresty/nginx/conf/subconf
+
 cp -r /tmp/zesty/volume/mbr/ssl   /etc/gateway/
 cp -r /tmp/zesty/volume/mbr/ssl   /.mbr/
 cp -r /tmp/zesty/volume/mbr/util /.mbr/
