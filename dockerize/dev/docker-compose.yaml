@@ -1,7 +1,8 @@
 version: "3.8"
-# networks:
-  # mbr_test_network_1:
-  #   driver: bridge
+networks:
+  mbr_test_network_99:
+    driver: bridge
+    external: true
 services:
   mbr_zesty_gateway_99:
     privileged: true
@@ -51,3 +52,4 @@ services:
       - "staking.massbitroute.net:172.24.99.254"
       - "git.massbitroute.net:172.24.99.5"
       - "fairy.massbitroute.net:172.24.99.3"
+      - "ipv4.icanhazip.com:172.24.99.254"
