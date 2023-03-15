@@ -31,7 +31,7 @@ _ubuntu() {
 }
 # check ubuntu
 if [ -f /etc/os-release ]; then
-	. /etc/os-rele`ase
+	. /etc/os-release
 	OS=$NAME
 	VER=$VERSION_ID
 elif type lsb_release >/dev/null 2>&1; then
