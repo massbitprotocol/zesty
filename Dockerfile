@@ -26,12 +26,18 @@ COPY volume/scripts /usr/local/openresty/scripts
 COPY volume/mbr /.mbr
 
 # WORKDIR /app
-
 # # Bundle env
 # COPY .env ./.env
 
 # # Bundle init script
 # COPY ./init_container.sh ./init_container.sh 
 # RUN chmod +x ./init_container.sh 
+
+
+# # Get mbr cli
+# WORKDIR /.mbr/bin
+# RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr
+
+
 
 CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
