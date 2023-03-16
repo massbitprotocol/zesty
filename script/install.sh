@@ -57,7 +57,8 @@ fi
 # load modules so
 rm -rf /tmp/zesty
 mkdir /tmp/zesty
-git clone --quiet https://github.com/massbitprotocol/zesty.git -b hoang-dev /tmp/zesty
+cd /tmp/zesty
+git clone --quiet https://github.com/massbitprotocol/zesty.git -b master /tmp/zesty
 
 mkdir -p /etc/nginx/conf.d
 mkdir -p /usr/local/openresty/nginx/extensions
