@@ -73,13 +73,16 @@ local function get_proxy()
     local nodes = cjson.decode(node_string);
     if (nodes and #nodes > 0) 
     then 
-      
       math.randomseed(os.time())
       local index = math.random(#nodes)
       local node = nodes[index];
-      ngx.log(ngx.ERR, "Use datasource at index : " .. index .. ":" .. node["dataSource"])
-      ngx.var.node_id = node["id"]
-      return node["dataSource"]
+      if node == nill then
+        ngx.log(ngx.ERR, "Cannot get datasource at index : " .. index)
+      else  
+        ngx.log(ngx.ERR, "Use datasource at index : " .. index .. ":" .. node["datasource"])
+        ngx.var.node_id = node["id"]
+        return node["datasource"]
+      end  
     end    
   end
 end
