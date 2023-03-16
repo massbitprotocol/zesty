@@ -67,9 +67,9 @@ mkdir -p /etc/gateway/
 mkdir -p /usr/local/openresty/nginx/logs/stat/ 
 mkdir -p /.mbr/logs/stat
 
-cp -r /tmp/zesty/volume/bin/openresty /usr/local/
+cp -r /tmp/zesty/openresty /usr/local/
 
-cp -r /tmp/zesty/volume/bin/openresty/nginx/sbin/nginx /usr/bin/
+cp -r /tmp/zesty/openresty/nginx/sbin/nginx /usr/bin/
 cp -r /tmp/zesty/volume/nginx.conf   /usr/local/openresty/nginx/conf/nginx.conf
 cp -r /tmp/zesty/volume/modules.conf   /usr/local/openresty/nginx/conf/modules.conf
 cp -r /tmp/zesty/volume/data   /usr/local/openresty/nginx/data
