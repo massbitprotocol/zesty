@@ -36,7 +36,8 @@ COPY volume/mbr /.mbr
 
 # Get mbr cli
 WORKDIR /.mbr/executable
-RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr
+RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-v0.0.1
+RUN mv ./mbr-v0.0.1 ./mbr
 RUN chmod +x ./mbr
 RUN ln -s /.mbr/executable/mbr /usr/bin/mbr
 
