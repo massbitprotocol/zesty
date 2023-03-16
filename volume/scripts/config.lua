@@ -1,4 +1,5 @@
 local cjson = require "cjson";
+local common = require "mbr/common";
 local upstreams = ngx.shared.upstreams;
 local gw = ngx.shared._GW_;
 local dapps = ngx.shared.dapps;
@@ -81,7 +82,6 @@ local function handler()
     local success, json_body = pcall(cjson.decode, ngx.var.request_body)
     if not success then
         ngx.log(ngx.ERR, "invalid JSON request")
-        ngx.
         ngx.exit(ngx.HTTP_BAD_REQUEST)
         return
     end

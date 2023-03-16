@@ -1,6 +1,7 @@
--- OpenResty ships with a number of useful built-in libraries
 local str = require('resty.string')
 local sha256 = require('resty.sha256')
+local cjson = require('cjson')
+local common = require('mbr/common')
 local dapps = ngx.shared.dapps; 
 local secret = "it's over 9000!"
 
@@ -22,12 +23,18 @@ local function notfound()
   ngx.exit(404)
 end
 local function authenticate_v1(api) 
-  ngx.log(ngx.NOTICE, "Call authenticate for api" .. api)
+  ngx.log(ngx.ERR, "Call authenticate for api" .. api)
   local apiInfo = dapps:get(api);
   if apiInfo == nil then
     ngx.log(ngx.ERR, "Api notfound: " .. api or "")
     notfound()
+  else 
+    local api = cjson.decode(apiInfo)
+    common.set_context("api", api["id"])
+    common.set_context("user_id", api["user_id"])
+    -- ngx.log(ngx.ERR, "Api info: " .. api["id"] .. ":" .. api["user_id"] )
   end  
+
   --[[
   local auth = ngx.var.http_authorization
   if auth == nil or auth:sub(0, 7) ~= 'SHA256 ' then
