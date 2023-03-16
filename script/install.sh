@@ -24,8 +24,6 @@ fi
 
 _ubuntu() {
 	apt-get update -qq
-	# apt-get install -y \
-	# 	supervisor ca-certificates curl rsync apt-utils git python3 python3-pip parallel apache2-utils jq python-is-python2 libssl-dev libmaxminddb-dev fcgiwrap cron xz-utils liburcu-dev libev-dev libsodium-dev libtool libunwind-dev libmaxminddb-dev 
     apt-get install -y curl gnupg2 ca-certificates lsb-release git make build-essential supervisor -qq
 
 }
