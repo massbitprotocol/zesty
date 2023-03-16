@@ -15,16 +15,13 @@ services:
     ports:
       - 80:80
     volumes:
-       - ./volume/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
-       - ./volume/modules.conf:/usr/local/openresty/nginx/conf/modules.conf
-       - ./volume/conf:/usr/local/openresty/nginx/conf/include:rw
-       - ./volume/conf/subconf:/usr/local/openresty/nginx/conf/subconf:rw
+       - ./nginx/conf/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+       - ./nginx/conf:/usr/local/openresty/nginx/conf/extensions:rw
+       - ./nginx/modules:/usr/local/openresty/nginx/modules/extensions:rw
+       - ./nginx/luascripts:/usr/local/openresty/lualib/mbr:rw
        - ./volume/data:/usr/local/openresty/nginx/data:rw
        - ./volume/logs:/usr/local/openresty/nginx/logs:rw
-       - ./volume/modules:/usr/local/openresty/nginx/extensions:rw
-       - ./volume/tmp:/usr/local/openresty/nginx/tmp:rw
-       - ./volume/scripts:/usr/local/openresty/lualib/mbr:rw
-
+       
 # Minh testing working running conf
        - ./volume/mbr:/.mbr:rw
     environment:
