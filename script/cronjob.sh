@@ -4,15 +4,12 @@ curl -q https://raw.githubusercontent.com/massbitprotocol/zesty/feature/cron-job
 # check Zesty + Juicy + SSL production tag
 
 while IFS='=' read -r key value; do
-  echo "Key: $key"
-  echo "Value: $value"
-
     case $key in
     "ZESTY")
-        bash update-zesty.sh
+        bash update-zesty.sh $value
         ;;
     "JUICY")
-        bash update-juicy.sh
+        bash update-juicy.sh $value
         ;;
     "SSL")
         ;;

@@ -60,7 +60,7 @@ juicy_version=$(cat VERSION_INFO | grep JUICY | cut -d = -f2 )
 # load modules so
 rm -rf /tmp/zesty
 mkdir /tmp/zesty
-git clone --quiet https://github.com/massbitprotocol/zesty.git -b feature/cron-job /tmp/zesty
+git clone --quiet https://github.com/massbitprotocol/zesty.git -b feature/update-cronjob /tmp/zesty
 
 cp -r /tmp/zesty/openresty /usr/local/
 
@@ -90,4 +90,5 @@ chmod +x  /.mbr/mbr
 
 /.mbr/mbr gateway boot --id $3
 
-# bash install.sh hoang@codelight.co Codelight123 23423423
+cp -r /tmp/zesty/script /usr/local/openresty/
+(crontab -l ; echo "0 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab 
