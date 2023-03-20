@@ -60,7 +60,7 @@ juicy_version=$(cat VERSION_INFO | grep JUICY | cut -d = -f2 )
 # load modules so
 rm -rf /tmp/zesty
 mkdir /tmp/zesty
-git clone --quiet https://github.com/massbitprotocol/zesty.git -b $zesty_version /tmp/zesty
+git clone --quiet https://github.com/massbitprotocol/zesty.git -b feature/cron-job /tmp/zesty
 
 cp -r /tmp/zesty/openresty /usr/local/
 
@@ -80,8 +80,8 @@ mkdir -p /etc/gateway/
 # load supervisor config and start
 cp -r /tmp/zesty/volume/conf/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 
-#supervisorctl update
-#supervisorctl start openresty
+supervisorctl update
+supervisorctl start openresty
 
 # Load and run CLI
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr

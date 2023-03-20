@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Zesty last update at $(date)" > /usr/local/openresty/zesty-update.log
+
 set -e
 rm -rf /tmp/zesty
 mkdir /tmp/zesty
