@@ -7,7 +7,7 @@ services:
   mbr_zesty_99:
     privileged: true
     restart: unless-stopped
-    image: massbit/massbitroute_zesty:v0.0.1
+    image: massbit/massbitroute_zesty:[[ZESTY_TAG]]
     container_name: mbr_zesty_99
     networks:
       - mbr_test_network_99
