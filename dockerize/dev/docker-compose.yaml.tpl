@@ -1,18 +1,19 @@
 version: "3.8"
-# networks:
-  # mbr_test_network_1:
-  #   driver: bridge
+networks:
+  mbr_test_network_99:
+    driver: bridge
+    external: true
 services:
-  mbr_zesty_gateway_99:
+  mbr_zesty_99:
     privileged: true
     restart: unless-stopped
-    image: massbit/massbitroute_zesty:v0.0.1
-    container_name: mbr_zesty_gateway_99
+    image: massbit/massbitroute_zesty:[[ZESTY_TAG]]
+    container_name: mbr_zesty_99
     networks:
       - mbr_test_network_99
     ports:
       - 5000:80
-#     volumes:
+    volumes:
 #        - ./volume/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
 #        - ./volume/modules.conf:/usr/local/openresty/nginx/conf/modules.conf
 #        - ./volume/conf:/usr/local/openresty/nginx/conf/include:rw
@@ -22,7 +23,7 @@ services:
 #        - ./volume/modules:/usr/local/openresty/nginx/extensions:rw
 #        - ./volume/tmp:/usr/local/openresty/nginx/tmp:rw
 #        - ./volume/scripts:/usr/local/openresty/lualib/mbr:rw
-
+         - /massbit/test_runtime/99/zesty:/usr/local/openresty/nginx/logs
 # # Minh testing working running conf
 #        - ./volume/mbr:/.mbr:rw
     environment:
@@ -51,3 +52,4 @@ services:
       - "staking.massbitroute.net:172.24.99.254"
       - "git.massbitroute.net:172.24.99.5"
       - "fairy.massbitroute.net:172.24.99.3"
+      - "ipv4.icanhazip.com:172.24.99.254"
