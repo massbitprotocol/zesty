@@ -62,35 +62,26 @@ rm -rf /tmp/zesty
 mkdir /tmp/zesty
 git clone --quiet https://github.com/massbitprotocol/zesty.git -b $zesty_version /tmp/zesty
 
-mkdir -p /etc/nginx/conf.d
-mkdir -p /usr/local/openresty/nginx/extensions
-mkdir -p /usr/local/openresty/nginx/conf
+cp -r /tmp/zesty/openresty /usr/local/
+
+ln -sf /usr/local/openresty/nginx/sbin/nginx /usr/bin/nginx
+cp  /tmp/zesty/nginx/conf/nginx.conf  /usr/local/openresty/nginx/conf/nginx.conf
+mkdir -p /usr/local/openresty/nginx/conf/extensions
+cp -r /tmp/zesty/nginx/conf/include /usr/local/openresty/nginx/conf/extensions/
+cp -r /tmp/zesty/nginx/conf/subconf /usr/local/openresty/nginx/conf/extensions/
+mkdir -p /usr/local/openresty/nginx/modules/extensions
+cp -r /tmp/zesty/nginx/modules/* /usr/local/openresty/nginx/modules/extensions/
+
+mkdir -p /usr/local/openresty/lualib/mbr
+cp -r /tmp/zesty/nginx/luascripts/* /usr/local/openresty/lualib/mbr/
 mkdir -p /var/run/openresty/nginx-client-body
 mkdir -p /etc/gateway/
-mkdir -p /usr/local/openresty/nginx/logs/stat/ 
-mkdir -p /.mbr/logs/stat
-
-cp -r /tmp/zesty/volume/bin/openresty /usr/local/
-
-cp -r /tmp/zesty/volume/bin/openresty/nginx/sbin/nginx /usr/bin/
-cp -r /tmp/zesty/volume/nginx.conf   /usr/local/openresty/nginx/conf/nginx.conf
-cp -r /tmp/zesty/volume/modules.conf   /usr/local/openresty/nginx/conf/modules.conf
-cp -r /tmp/zesty/volume/data   /usr/local/openresty/nginx/data
-cp -r /tmp/zesty/volume/modules/*   /usr/local/openresty/nginx/extensions
-chmod 755 /usr/local/openresty/nginx/data/vts_gw.db
-
-cp -r /tmp/zesty/volume/conf   /usr/local/openresty/nginx/conf/include
-cp -r /tmp/zesty/volume/conf/subconf   /usr/local/openresty/nginx/conf/subconf
-
-cp -r /tmp/zesty/volume/mbr/ssl   /etc/gateway/
-cp -r /tmp/zesty/volume/mbr/ssl   /.mbr/
-cp -r /tmp/zesty/volume/mbr/util /.mbr/
 
 # load supervisor config and start
 cp -r /tmp/zesty/volume/conf/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 
-supervisorctl update
-supervisorctl start openresty
+#supervisorctl update
+#supervisorctl start openresty
 
 # Load and run CLI
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
