@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 
 # Validate email parameter
 if [[ ! "$1" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$ ]]; then
@@ -41,7 +42,7 @@ elif [ -f /etc/lsb-release ]; then
 	VER=$DISTRIB_RELEASE
 elif [ -f /etc/debian_version ]; then
 	OS=Debian
-	VER=$(cat /etc/debian_version)
+	VER=$(cat /etc/debian_version) 
 
 fi
 if [ \( "$OS" = "Ubuntu" \) -a \( "$VER" = "20.04" \) ]; then
@@ -51,11 +52,15 @@ else
 	exit 0
 fi
 
+curl -q https://raw.githubusercontent.com/massbitprotocol/zesty/feature/cron-job/version -o VERSION_INFO
+
+zesty_version=$(cat VERSION_INFO | grep ZESTY | cut -d = -f2 )
+juicy_version=$(cat VERSION_INFO | grep JUICY | cut -d = -f2 )
 
 # load modules so
 rm -rf /tmp/zesty
 mkdir /tmp/zesty
-git clone --quiet https://github.com/massbitprotocol/zesty.git -b hoang-dev /tmp/zesty
+git clone --quiet https://github.com/massbitprotocol/zesty.git -b $zesty_version /tmp/zesty
 
 mkdir -p /etc/nginx/conf.d
 mkdir -p /usr/local/openresty/nginx/extensions
@@ -88,8 +93,10 @@ supervisorctl update
 supervisorctl start openresty
 
 # Load and run CLI
-wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr -O /.mbr/mbr
+wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
 chmod +x  /.mbr/mbr
 /.mbr/mbr login -e $1 -p $2 -f
 
 /.mbr/mbr gateway boot --id $3
+
+# bash install.sh hoang@codelight.co Codelight123 23423423

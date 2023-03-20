@@ -9,10 +9,10 @@ while IFS='=' read -r key value; do
 
     case $key in
     "ZESTY")
-        # statements for pattern1
+        bash update-zesty.sh
         ;;
     "JUICY")
-        # statements for pattern2
+        bash update-juicy.sh
         ;;
     "SSL")
         ;;
