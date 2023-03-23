@@ -52,7 +52,7 @@ else
 	exit 0
 fi
 
-curl -q https://raw.githubusercontent.com/massbitprotocol/zesty/feature/cron-job/version -o VERSION_INFO
+curl -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version -o VERSION_INFO
 
 zesty_version=$(cat VERSION_INFO | grep ZESTY | cut -d = -f2 )
 juicy_version=$(cat VERSION_INFO | grep JUICY | cut -d = -f2 )
