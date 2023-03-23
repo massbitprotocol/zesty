@@ -1,4 +1,4 @@
-ZESTY_TAG=$1
+ZESTY_TAG=$(cat ZESTY_TAG)
 
 # Gen docker-compose
 cat ./docker-compose.yaml.tpl | \

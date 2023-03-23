@@ -20,7 +20,4 @@ git checkout tags/${ZESTY_TAG}
 # Build docker images
 docker build -f ./Dockerfile -t massbit/massbitroute_zesty:${ZESTY_TAG} --build-arg JUICY_TAG=${JUICY_TAG} --build-arg ENV=${ENV} ..
 
-# Rerun container
-bash -x restart_container.sh $ZESTY_TAG
-
 # docker-compose up -d --force-recreate
