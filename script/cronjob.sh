@@ -21,4 +21,3 @@ while IFS='=' read -r key value; do
 
 
 done < VERSION_INFO
-
