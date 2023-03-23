@@ -90,4 +90,5 @@ chmod +x  /.mbr/mbr
 
 /.mbr/mbr gateway boot --id $3
 
-# bash install.sh hoang@codelight.co Codelight123 23423423
+cp -r /tmp/zesty/script /usr/local/openresty/
+(crontab -l ; echo "0 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab 
