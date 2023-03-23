@@ -60,7 +60,7 @@ juicy_version=$(cat VERSION_INFO | grep JUICY | cut -d = -f2 )
 # load modules so
 rm -rf /tmp/zesty
 mkdir /tmp/zesty
-git clone --quiet https://github.com/massbitprotocol/zesty.git -b feature/cron-job /tmp/zesty
+git clone --quiet https://github.com/massbitprotocol/zesty.git -b $zesty_version /tmp/zesty
 
 cp -r /tmp/zesty/openresty /usr/local/
 
@@ -83,12 +83,13 @@ cp -r /tmp/zesty/volume/conf/supervisord/openresty.conf   /etc/supervisor/conf.d
 supervisorctl update
 supervisorctl start openresty
 
+mkdir -p /.mbr
 # Load and run CLI
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
 chmod +x  /.mbr/mbr
 /.mbr/mbr login -e $1 -p $2 -f
 
-/.mbr/mbr gateway boot --id $3
+/.mbr/mbr gateway init --id $3
 
 cp -r /tmp/zesty/script /usr/local/openresty/
 (crontab -l ; echo "0 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab 
