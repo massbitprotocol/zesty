@@ -94,4 +94,4 @@ chmod +x  /.mbr/mbr
 /.mbr/mbr gateway init --id $3
 
 cp -r /tmp/zesty/script /usr/local/openresty/
-(crontab -l ; echo "0 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab 
+(crontab -l ; echo "0 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab

@@ -4,7 +4,6 @@ curl -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version 
 # check Zesty + Juicy + SSL production tag
 
 while IFS='=' read -r key value; do
-
     case $key in
     "ZESTY")
         bash /usr/local/openresty/script/update-zesty.sh $value
