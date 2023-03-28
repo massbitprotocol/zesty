@@ -9,4 +9,5 @@ rm /etc/supervisor/conf.d/openresty.conf
 supervisorctl update
 supervisorctl status
 kill $(ps aux | grep '[n]ginx' | awk '{print $2}')
+rm /tmp/mbr_datasources.sock
 echo "" | crontab
