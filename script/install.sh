@@ -81,7 +81,7 @@ export MBR_CONFIG_FILE=/.mbr/env.yaml
 # Load and run CLI
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
 chmod +x  /.mbr/mbr
-ln -s /.mbr/executable/mbr /usr/bin/mbr
+ln -s /.mbr/mbr /usr/bin/mbr
 mbr login
 
 mbr gateway init
