@@ -70,7 +70,7 @@ mkdir -p /var/run/openresty/nginx-client-body
 mkdir -p /etc/gateway/
 
 # load supervisor config and start
-cp -r /tmp/zesty/volume/conf/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
+cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 
 supervisorctl update
 supervisorctl start openresty
