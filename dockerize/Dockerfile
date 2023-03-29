@@ -5,7 +5,7 @@ ARG ENV
 
 RUN apt-get update -y
 
-RUN apt-get install vim -y
+RUN apt-get install vim dnsutils curl -y
 
 # Bundle src
 COPY nginx/conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
