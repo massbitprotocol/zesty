@@ -1,30 +1,22 @@
 #!/bin/bash
 
+supervisorctl stop all > /dev/null
+rm /tmp/zesty/ -r > /dev/null
+rm /usr/local/openresty -rf > /dev/null
+rm /etc/supervisor/conf.d/openresty > /dev/null
+rm /etc/supervisor/conf.d/openresty.conf > /dev/null
+supervisorctl update > /dev/null
+rm /tmp/mbr_datasources.sock > /dev/null
+kill $(ps aux | grep '[n]ginx' | awk '{print $2}')
+echo "" | crontab
+
 set -e
-
-# Validate email parameter
-if [[ ! "$1" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$ ]]; then
-  echo "Error: Invalid email format"
-  exit 1
-fi
-
-# Validate string parameter 1
-if [[ -z "$2" ]]; then
-  echo "Error: Password is required"
-  exit 1
-fi
-
-# Validate string parameter 2
-if [[ -z "$3" ]]; then
-  echo "Error: Node/Gateway ID is required"
-  exit 1
-fi
 
 
 # Install dependencies
 
 _ubuntu() {
-	apt-get update -qq
+	apt-get -qq update 
     apt-get install -y curl gnupg2 ca-certificates lsb-release git make build-essential supervisor -qq
 
 }
@@ -52,7 +44,7 @@ else
 	exit 0
 fi
 
-curl -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version -o VERSION_INFO
+wget -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version -O VERSION_INFO
 
 zesty_version=$(cat VERSION_INFO | grep ZESTY | cut -d = -f2 )
 juicy_version=$(cat VERSION_INFO | grep JUICY | cut -d = -f2 )
@@ -89,9 +81,10 @@ export MBR_CONFIG_FILE=/.mbr/env.yaml
 # Load and run CLI
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
 chmod +x  /.mbr/mbr
-/.mbr/mbr login -e $1 -p $2 -f
+/.mbr/mbr login
 
-/.mbr/mbr gateway init --id $3
+/.mbr/mbr gateway init
 
 cp -r /tmp/zesty/script /usr/local/openresty/
 (crontab -l ; echo "0 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab
+ 
