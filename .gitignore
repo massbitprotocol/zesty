@@ -1,2 +1,4 @@
 volume
 ./mbr
+ngx_http_zesty_module.so
+zesty.so
