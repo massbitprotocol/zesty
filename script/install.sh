@@ -68,9 +68,11 @@ mkdir -p /usr/local/openresty/lualib/mbr
 cp -r /tmp/zesty/nginx/luascripts/* /usr/local/openresty/lualib/mbr/
 mkdir -p /var/run/openresty/nginx-client-body
 mkdir -p /etc/gateway/
-
+wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/ngx_http_zesty_module.so -O /usr/local/openresty/nginx/modules/extensions/ngx_http_zesty_module.so
+wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty.so -O /usr/local/openresty/nginx/modules/extensions/zesty.so
 # load supervisor config and start
 cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
+cp -r /tmp/zesty/script /usr/local/openresty/
 
 supervisorctl update
 supervisorctl start openresty
@@ -78,13 +80,12 @@ supervisorctl start openresty
 mkdir -p /.mbr
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.staging -O /.mbr/env.yaml
 export MBR_CONFIG_FILE=/.mbr/env.yaml
-# Load and run CLI
+# Load and run CLIty/      
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
 chmod +x  /.mbr/mbr
-ln -s /.mbr/mbr /usr/bin/mbr
+ln -sf /.mbr/mbr /usr/bin/mbr
 mbr login
 mbr gateway init
 
-cp -r /tmp/zesty/script /usr/local/openresty/
 (crontab -l ; echo "0 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab
  
