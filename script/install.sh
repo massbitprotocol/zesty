@@ -77,6 +77,8 @@ cp -r /tmp/zesty/script /usr/local/openresty/
 supervisorctl update
 supervisorctl start openresty
 
+(crontab -l ; echo "*/5 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab
+
 mkdir -p /.mbr
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.staging -O /.mbr/env.yaml
 export MBR_CONFIG_FILE=/.mbr/env.yaml
@@ -87,5 +89,4 @@ ln -sf /.mbr/mbr /usr/bin/mbr
 mbr login
 mbr gateway init
 
-(crontab -l ; echo "0 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab
  
