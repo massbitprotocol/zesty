@@ -70,7 +70,7 @@ mkdir -p /var/run/openresty/nginx-client-body
 mkdir -p /etc/gateway/
 
 # load supervisor config and start
-cp -r /tmp/zesty/volume/conf/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
+cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 
 supervisorctl update
 supervisorctl start openresty
@@ -83,7 +83,6 @@ wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy
 chmod +x  /.mbr/mbr
 ln -s /.mbr/mbr /usr/bin/mbr
 mbr login
-
 mbr gateway init
 
 cp -r /tmp/zesty/script /usr/local/openresty/
