@@ -12,8 +12,8 @@ update_zesty (){
     cp -r /tmp/zesty/nginx/conf/subconf /usr/local/openresty/nginx/conf/extensions/
     cp -r /tmp/zesty/nginx/modules/* /usr/local/openresty/nginx/modules/extensions/
 
-    #wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/ngx_http_zesty_module.so -O /usr/local/openresty/nginx/modules/extensions/ngx_http_zesty_module.so
-    wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty.so -O /usr/local/openresty/nginx/modules/extensions/zesty.so
+    wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/ngx_http_zesty_module-$2.so -O /usr/local/openresty/nginx/modules/extensions/ngx_http_zesty_module.so
+    #wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty.so -O /usr/local/openresty/nginx/modules/extensions/zesty.so
 
     cp -r /tmp/zesty/nginx/luascripts/* /usr/local/openresty/lualib/mbr/
 
@@ -21,8 +21,8 @@ update_zesty (){
     cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 
     rm /tmp/mbr_datasources.sock
-    /usr/bin/nginx -s reload
-    rm /tmp/mbr_datasources.sock
+    supervisor restart openresty
+    mkdir -p /var/run/ /nginx-client-body
     echo "$(date) - Zesty updated successfully"
     exit 0
 }
