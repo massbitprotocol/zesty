@@ -48,6 +48,7 @@ wget -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version 
 
 zesty_version=$(cat VERSION_INFO | grep ZESTY | cut -d = -f2 )
 juicy_version=$(cat VERSION_INFO | grep JUICY | cut -d = -f2 )
+so_zesty_version=$(cat VERSION_INFO | grep SO_ZESTY | cut -d = -f2 )
 
 # load modules so
 rm -rf /tmp/zesty
@@ -68,8 +69,8 @@ mkdir -p /usr/local/openresty/lualib/mbr
 cp -r /tmp/zesty/nginx/luascripts/* /usr/local/openresty/lualib/mbr/
 mkdir -p /var/run/openresty/nginx-client-body
 mkdir -p /etc/gateway/
-wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/ngx_http_zesty_module.so -O /usr/local/openresty/nginx/modules/extensions/ngx_http_zesty_module.so
-wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty.so -O /usr/local/openresty/nginx/modules/extensions/zesty.so
+wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/ngx_http_zesty_module-$so_zesty_version.so -O /usr/local/openresty/nginx/modules/extensions/ngx_http_zesty_module.so
+#wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty.so -O /usr/local/openresty/nginx/modules/extensions/zesty.so
 # load supervisor config and start
 cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 cp -r /tmp/zesty/script /usr/local/openresty/
