@@ -46,9 +46,9 @@ fi
 
 wget -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version -O VERSION_INFO
 
-zesty_version=$(cat VERSION_INFO | grep ZESTY | cut -d = -f2 )
-juicy_version=$(cat VERSION_INFO | grep JUICY | cut -d = -f2 )
-so_zesty_version=$(cat VERSION_INFO | grep SO_ZESTY | cut -d = -f2 )
+zesty_version=$(cat VERSION_INFO | grep '^ZESTY' | cut -d = -f2 )
+juicy_version=$(cat VERSION_INFO | grep '^JUICY' | cut -d = -f2 )
+so_zesty_version=$(cat VERSION_INFO | grep '^SO_ZESTY' | cut -d = -f2 )
 
 # load modules so
 rm -rf /tmp/zesty
