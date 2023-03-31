@@ -85,7 +85,10 @@ supervisorctl start openresty
 
 mkdir -p /.mbr
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.staging -O /.mbr/env.yaml
-export MBR_CONFIG_FILE=/.mbr/env.yaml
+
+echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> ./.bashrc
+source  ./.bashrc
+
 # Load and run CLIty/      
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
 chmod +x  /.mbr/mbr
