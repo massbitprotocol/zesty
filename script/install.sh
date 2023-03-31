@@ -91,7 +91,5 @@ export MBR_CONFIG_FILE=/.mbr/env.yaml
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
 chmod +x  /.mbr/mbr
 ln -sf /.mbr/mbr /usr/bin/mbr
-mbr login
-mbr gateway init
-
- 
+/.mbr/mbr login
+/.mbr/mbr gateway init
