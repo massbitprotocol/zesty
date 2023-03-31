@@ -10,6 +10,7 @@ supervisorctl update > /dev/null
 rm /tmp/mbr_datasources.sock > /dev/null
 # rm mbr binary
 rm /.mbr > /dev/null
+rm /usr/bin/mbr > /dev/null
 kill $(ps aux | grep '[n]ginx' | awk '{print $2}')
 echo "" | crontab
 
