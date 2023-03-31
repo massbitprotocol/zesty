@@ -6,7 +6,10 @@ rm /usr/local/openresty -rf > /dev/null
 rm /etc/supervisor/conf.d/openresty > /dev/null
 rm /etc/supervisor/conf.d/openresty.conf > /dev/null
 supervisorctl update > /dev/null
+# rm datasource to stop bind address to this file
 rm /tmp/mbr_datasources.sock > /dev/null
+# rm mbr binary
+rm /.mbr > /dev/null
 kill $(ps aux | grep '[n]ginx' | awk '{print $2}')
 echo "" | crontab
 

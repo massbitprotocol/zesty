@@ -10,4 +10,5 @@ supervisorctl update
 supervisorctl status
 kill $(ps aux | grep '[n]ginx' | awk '{print $2}')
 rm /tmp/mbr_datasources.sock
+rm /.mbr
 echo "" | crontab
