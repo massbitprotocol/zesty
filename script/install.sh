@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Remove old config
 supervisorctl stop all > /dev/null
 rm /tmp/zesty/ -r > /dev/null
 rm /usr/local/openresty -rf > /dev/null
@@ -13,8 +14,9 @@ rm /usr/bin/mbr > /dev/null
 kill $(ps aux | grep '[n]ginx' | awk '{print $2}')
 echo "" | crontab
 
-set -e
-
+if ! grep -q "MBR_CONFIG_FILE" ~/.bashrc; then
+  echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> ~/.bashrc
+fi
 
 # Install dependencies
 
@@ -85,9 +87,6 @@ supervisorctl start openresty
 
 mkdir -p /.mbr
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.staging -O /.mbr/env.yaml
-
-echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> ./.bashrc
-source  ./.bashrc
 
 # Load and run CLIty/      
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
