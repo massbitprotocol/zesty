@@ -3,7 +3,6 @@
 supervisorctl stop all > /dev/null
 rm /tmp/zesty/ -r > /dev/null
 rm /usr/local/openresty -rf > /dev/null
-rm /etc/supervisor/conf.d/openresty > /dev/null
 rm /etc/supervisor/conf.d/openresty.conf > /dev/null
 supervisorctl update > /dev/null
 # rm datasource to stop bind address to this file

@@ -21,7 +21,8 @@ update_zesty (){
     cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 
     rm /tmp/mbr_datasources.sock
-    supervisorctl restart openresty
+    nginx -s reload
+    # supervisorctl restart openresty
     mkdir -p /var/run/ /nginx-client-body
     echo "$(date) - Zesty updated successfully"
     exit 0
