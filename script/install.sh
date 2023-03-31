@@ -14,8 +14,8 @@ rm /usr/bin/mbr > /dev/null
 kill $(ps aux | grep '[n]ginx' | awk '{print $2}')
 echo "" | crontab
 
-if ! grep -q "MBR_CONFIG_FILE" ~/.bashrc; then
-  echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> ~/.bashrc
+if ! grep -q "MBR_CONFIG_FILE" ./.bashrc; then
+  echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> ./.bashrc
 fi
 
 # Install dependencies
