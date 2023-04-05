@@ -11,8 +11,11 @@ while IFS='=' read -r key value; do
     "JUICY")
         bash /usr/local/openresty/script/update-juicy.sh $value > /var/log/juicy-update.log
         ;;
-    "SO_ZESTY")
-        # bash /usr/local/openresty/script/update-so-zesty.sh $value > /var/log/so-zesty-update.log
+    "ZESTY_NGINX_SO")
+        bash /usr/local/openresty/script/update-zesty-nginx-so.sh $value > /var/log/zesty-nginx-so-update.log
+        ;;
+    "ZESTY_SO")
+        bash /usr/local/openresty/script/update-zesty-so.sh $value > /var/log/zesty-so-update.log
         ;;
     *)
         ;;

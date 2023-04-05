@@ -1,7 +1,7 @@
 #!/bin/bash
 
 update_zesty (){
-    echo "Zesty last update at $(date)" > /usr/local/openresty/zesty-update.log
+    echo "Zesty last update at $(date)" 
 
     rm -rf /tmp/zesty
     git clone --quiet https://github.com/massbitprotocol/zesty.git -b $1 /tmp/zesty
@@ -21,9 +21,10 @@ update_zesty (){
     cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 
     rm /tmp/mbr_datasources.sock
+    export LD_LIBRARY_PATH=/usr/local/openresty/nginx/modules/extensions
     nginx -s reload
     # supervisorctl restart openresty
-    mkdir -p /var/run/ /nginx-client-body
+    mkdir -p /var/run/nginx-client-body
     echo "$(date) - Zesty updated successfully"
     exit 0
 }
@@ -36,7 +37,7 @@ if [ -d "$folder_path" ]; then
     # Get the current Git tag
     git_tag=$(git describe --tags --abbrev=0)
     
-    if [ $git_tag !== $1 ]; then
+    if ! [ $git_tag == $1 ]; then
         echo "$(date) - Zesty is up to date"
         exit 0
     else 

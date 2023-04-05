@@ -8,7 +8,7 @@ rm /etc/supervisor/conf.d/openresty
 rm /etc/supervisor/conf.d/openresty.conf
 supervisorctl update
 supervisorctl status
-kill $(ps aux | grep '[n]ginx' | awk '{print $2}')
+kill  -9 $(ps aux | grep '[n]ginx' | awk '{print $2}')
 rm /tmp/mbr_datasources.sock
 rm -rf /.mbr
 rm /usr/bin/mbr > /dev/null
