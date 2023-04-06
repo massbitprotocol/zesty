@@ -53,8 +53,8 @@ wget -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version 
 
 zesty_version=$(cat VERSION_INFO | grep '^ZESTY=' | cut -d = -f2 )
 juicy_version=$(cat VERSION_INFO | grep '^JUICY=' | cut -d = -f2 )
-so_zesty_version=$(cat VERSION_INFO | grep '^ZESTY_NGINX_SO=' | cut -d = -f2 )
-so_zesty_nginx_version=$(cat VERSION_INFO | grep '^ZESTY_SO=' | cut -d = -f2 )
+so_zesty_version=$(cat VERSION_INFO | grep '^ZESTY_SO=' | cut -d = -f2 )
+so_zesty_nginx_version=$(cat VERSION_INFO | grep '^ZESTY_NGINX_SO=' | cut -d = -f2 )
 
 # load modules so
 rm -rf /tmp/zesty
@@ -77,14 +77,14 @@ mkdir -p /var/run/openresty/nginx-client-body
 mkdir -p /etc/gateway/
 
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/ngx_http_zesty_module-$so_zesty_version.so -O /usr/local/openresty/nginx/modules/extensions/ngx_http_zesty_module.so
-wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty-$so_zesty_version.so -O /usr/local/openresty/nginx/modules/extensions/zesty-$so_zesty_version.so
+wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty-$so_zesty_nginx_version.so -O /usr/local/openresty/nginx/modules/extensions/zesty-$so_zesty_nginx_version.so
 
 # load supervisor config and start
 cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 cp -r /tmp/zesty/script /usr/local/openresty/
 
-# echo $so_zesty_nginx_version > /usr/local/openresty/nginx/modules/extensions/zesty_ngx.ver
-echo $so_zesty_version > /usr/local/openresty/nginx/modules/extensions/zesty.ver
+echo $so_zesty_nginx_version > /usr/local/openresty/nginx/modules/extensions/zesty_ngx.ver
+# echo $so_zesty_version > /usr/local/openresty/nginx/modules/extensions/zesty.ver
 
 supervisorctl update
 supervisorctl start openresty
