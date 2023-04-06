@@ -83,7 +83,7 @@ wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build
 cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 cp -r /tmp/zesty/script /usr/local/openresty/
 
-# echo $so_zesty_nginx_version > /usr/local/openresty/nginx/modules/extensions/zesty-ngx.ver
+# echo $so_zesty_nginx_version > /usr/local/openresty/nginx/modules/extensions/zesty_ngx.ver
 echo $so_zesty_version > /usr/local/openresty/nginx/modules/extensions/zesty.ver
 
 supervisorctl update
