@@ -83,7 +83,7 @@ wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build
 cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 cp -r /tmp/zesty/script /usr/local/openresty/
 
-echo $so_zesty_nginx_version > /usr/local/openresty/nginx/modules/extensions/zesty-ngx.ver
+# echo $so_zesty_nginx_version > /usr/local/openresty/nginx/modules/extensions/zesty-ngx.ver
 echo $so_zesty_version > /usr/local/openresty/nginx/modules/extensions/zesty.ver
 
 supervisorctl update
@@ -98,5 +98,9 @@ wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
 chmod +x  /.mbr/mbr
 ln -sf /.mbr/mbr /usr/bin/mbr
+
+rm /tmp/mbr_datasources.sock
+kill -9 $(ps aux | grep '[n]ginx' | awk '{print $2}')
+
 /.mbr/mbr login
 /.mbr/mbr gateway init
