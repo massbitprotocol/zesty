@@ -11,7 +11,7 @@ wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/
 }
 
 
-folder_path="/usr/local/openresty/nginx/modules/extensions/zesty.ver"
+folder_path="/usr/local/openresty/nginx/modules/extensions/zesty_ngx.ver"
 
 if [ ! -f $folder_path ] || [ $(cat $folder_path) != $1 ]; then
     update_zesty $1
