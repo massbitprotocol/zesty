@@ -20,6 +20,7 @@ end
 local main = {
   auth = auth,
   --set_context = set_context,
+  parse_rpc_body = request.parse_rpc_body,
   get_proxy = request.get_proxy,
   filter_rpc_body = request.filter_rpc_body,
   handle_config = config,

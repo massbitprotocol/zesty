@@ -49,6 +49,41 @@ local function filter_rpc_body()
   ngx.req.set_header(common.header_rpc_method, method)
 end
 
+-- Return next datasource and assign to proxy
+local function parse_rpc_body()
+  -- get request content
+  ngx.req.read_body()
+
+  -- try to parse the body as JSON
+  local success, body = pcall(cjson.decode, ngx.var.request_body)
+  if not success then
+      ngx.log(ngx.ERR, "invalid JSON request")
+      ngx.exit(ngx.HTTP_BAD_REQUEST)
+      return
+  end
+
+  local method = body["method"]
+  local version = body["jsonrpc"]
+
+  -- check we have a method and a version
+  if common.is_empty(method) or common.is_empty(version) then
+      ngx.log(ngx.ERR, "Missing method and/or jsonrpc attribute")
+      ngx.exit(ngx.HTTP_BAD_REQUEST)
+      return
+  end
+
+  -- check the version is supported
+  --[[
+  if version ~= "2.0" then
+      ngx.log(ngx.ERR, "jsonrpc version not supported: " .. version)
+      ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+      return
+  end
+  ]] --
+  ngx.var["api_method"] = method
+  ngx.req.set_header(common.header_rpc_method, method)
+end
+
 local function get_proxy()
   ngx.var.api_method = ngx.req.get_headers()[common.header_rpc_method]
   ngx.req.clear_header(common.header_rpc_method)
@@ -88,6 +123,7 @@ local function get_proxy()
 end
 
 local request = {
+  parse_rpc_body = parse_rpc_body,
   get_proxy = get_proxy,
   filter_rpc_body = filter_rpc_body,
 }
