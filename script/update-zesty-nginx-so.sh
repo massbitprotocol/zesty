@@ -3,7 +3,7 @@
 update_zesty (){
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/ngx_http_zesty_module-$1.so -O /usr/local/openresty/nginx/modules/extensions/ngx_http_zesty_module.so
     export LD_LIBRARY_PATH=/usr/local/openresty/nginx/modules/extensions
-    nginx -s reload
+    supervisorctl restart openresty
     mkdir -p /var/run/nginx-client-body
 
     echo "$(date) - ngx_http_zesty_module.so updated successfully"
