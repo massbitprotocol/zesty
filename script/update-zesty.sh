@@ -37,7 +37,7 @@ if [ -d "$folder_path" ]; then
     # Get the current Git tag
     git_tag=$(git describe --tags --abbrev=0)
     
-    if [ "$git_tag" != "$1" ]; then
+    if [ "$git_tag" == "$1" ]; then
         echo "$(date) - Zesty is up to date"
         exit 0
     else 
