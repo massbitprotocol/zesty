@@ -11,6 +11,12 @@ ZESTY_TAG=$(cat ZESTY_TAG)
 # Get the version of JUICY based on version from ZESTY
 JUICY_TAG=$(curl -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version | grep JUICY | cut -d"=" -f2)
 
+# Get the version of JUICY based on version from ZESTY
+ZESTY_SO_TAG=$(curl -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version | grep ZESTY_SO | cut -d"=" -f2)
+
+# Get the version of JUICY based on version from ZESTY
+ZESTY_NGINX_SO_TAG=$(curl -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version | grep ZESTY_NGINX_SO | cut -d"=" -f2)
+
 # Get latest tag
 git fetch --all --tags --force
 
@@ -18,6 +24,6 @@ git fetch --all --tags --force
 git checkout tags/${ZESTY_TAG}
 
 # Build docker images
-docker build -f ./Dockerfile -t massbit/massbitroute_zesty:${ZESTY_TAG} --build-arg JUICY_TAG=${JUICY_TAG} --build-arg ENV=${ENV} ..
+docker build -f ./Dockerfile -t massbit/massbitroute_zesty:${ZESTY_TAG} --build-arg JUICY_TAG=${JUICY_TAG} --build-arg ZESTY_SO_TAG=${ZESTY_SO_TAG} --build-arg ZESTY_NGINX_SO_TAG=${ZESTY_NGINX_SO_TAG} --build-arg ENV=${ENV} ..
 
 # docker-compose up -d --force-recreate
