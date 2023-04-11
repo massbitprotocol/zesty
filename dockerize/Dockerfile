@@ -5,10 +5,6 @@ ARG ZESTY_SO_TAG
 ARG ZESTY_NGINX_SO_TAG
 ARG ENV
 
-# FOr logging
-ENV LOG_DRIVER=json-file
-ENV LOG_DRIVER_OPTS="--log-opt max-size=10m --log-opt max-file=3 --log-opt tag=/usr/local/openresty/nginx/logs/openresty-access.log --log-opt tag=/usr/local/openresty/nginx/logs/openresty-error.log"
-
 RUN apt-get update -y
 
 RUN apt-get install vim dnsutils curl supervisor -y
