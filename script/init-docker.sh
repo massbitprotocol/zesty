@@ -1,2 +1,2 @@
-mbr login -e $USERNAME -p $PASSWORD -c
+mbr login -t $TOKEN
 mbr gateway init --id=${GW_ID} -f
