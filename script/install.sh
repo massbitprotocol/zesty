@@ -1,17 +1,23 @@
 #!/bin/bash
 
+GREY='\033[0;37m'
+NC='\033[0m'
+
+# Print grey text
+echo -e "${GREY}Massbit Gateway Client installation in progresss${NC}"
+
 # Remove old config
-supervisorctl stop all > /dev/null
-rm /tmp/zesty/ -r > /dev/null
-rm /usr/local/openresty -rf > /dev/null
-rm /etc/supervisor/conf.d/openresty.conf > /dev/null
-supervisorctl update > /dev/null
+supervisorctl stop all > /dev/null 2>&1
+rm /tmp/zesty/ -r > /dev/null 2>&1
+rm /usr/local/openresty -rf > /dev/null 2>&1
+rm /etc/supervisor/conf.d/openresty.conf > /dev/null 2>&1
+supervisorctl update > /dev/null 2>&1
 # rm datasource to stop bind address to this file
-rm /tmp/mbr_datasources.sock > /dev/null
+rm /tmp/mbr_datasources.sock > /dev/null 2>&1
 # rm mbr binary
-rm -rf /.mbr > /dev/null
-rm /usr/bin/mbr > /dev/null
-kill -9 $(ps aux | grep '[n]ginx' | awk '{print $2}')
+rm -rf /.mbr > /dev/null 2>&1
+rm /usr/bin/mbr > /dev/null 2>&1
+kill -9 $(ps aux | grep '[n]ginx' | awk '{print $2}') > /dev/null 2>&1
 echo "" | crontab
 
 if ! grep -q "MBR_CONFIG_FILE" ./.bashrc; then
@@ -22,7 +28,7 @@ fi
 
 _ubuntu() {
 	apt-get -qq update 
-    apt-get install -y curl gnupg2 ca-certificates lsb-release git make build-essential supervisor -qq
+    apt-get install -y curl gnupg2 ca-certificates lsb-release git make build-essential supervisor logrotate -qq
 
 }
 # check ubuntu
@@ -59,7 +65,10 @@ so_zesty_nginx_version=$(cat VERSION_INFO | grep '^ZESTY_NGINX_SO=' | cut -d = -
 # load modules so
 rm -rf /tmp/zesty
 mkdir /tmp/zesty
-git clone --quiet https://github.com/massbitprotocol/zesty.git -b $zesty_version /tmp/zesty
+git clone --quiet https://github.com/massbitprotocol/zesty.git /tmp/zesty
+cd /tmp/zesty
+git fetch --tags 
+git checkout $zesty_version --quiet 
 
 cp -r /tmp/zesty/openresty /usr/local/
 
@@ -86,8 +95,23 @@ cp -r /tmp/zesty/script /usr/local/openresty/
 # echo $so_zesty_nginx_version > /usr/local/openresty/nginx/modules/extensions/zesty_ngx.ver
 echo $so_zesty_version > /usr/local/openresty/nginx/modules/extensions/zesty.ver
 
-supervisorctl update
-supervisorctl start openresty
+supervisorctl update > /dev/null 2>&1
+supervisorctl start openresty > /dev/null 2>&1
+
+sleep 2
+
+GREEN='\033[0;32m'
+CHECK='\xE2\x9C\x94'
+RESET='\033[0m'
+RED='\033[0;31m'
+
+# Print green check mark symbol
+if supervisorctl status openresty | grep -q "RUNNING"; then
+    echo -e "${GREEN}${CHECK} Massbit Gateway client installed successfully ${RESET}"
+else
+	echo -e "${RED}✖ Failed to install Massbit Gateway client. Please reboot your host and rerun the installation command $1${NC}${RESET}"
+	exit 1
+fi
 
 (crontab -l ; echo "*/5 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab
 
@@ -101,6 +125,9 @@ ln -sf /.mbr/mbr /usr/bin/mbr
 
 rm /tmp/mbr_datasources.sock
 kill -9 $(ps aux | grep '[n]ginx' | awk '{print $2}')
+
+
+cp -r /tmp/zesty/logrotate/logrotate.conf /etc/logrotate.d/mbr_logrotate.conf
 
 /.mbr/mbr login
 /.mbr/mbr gateway init
