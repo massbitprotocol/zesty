@@ -5,4 +5,4 @@ docker build -f ./Dockerfile -t massbit/massbitroute_zesty:v0.0.1-dev --build-ar
 docker-compose up -d --force-recreate
 
 # Start container with env
-docker run -e USERNAME=minh.bugfix@codelight.co -e PASSWORD=Codelight123 -e GW_ID=2dsdsa1231 massbit/massbitroute_zesty:v0.0.1-dev
+docker run --name mbr_gateway -p 80:80 -e USERNAME=minh.bugfix@codelight.co -e PASSWORD=Codelight123 -e GW_ID=2dsdsa1231 massbit/massbitroute_zesty:v0.0.1-dev
