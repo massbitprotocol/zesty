@@ -22,6 +22,6 @@ else
         chmod +x  /.mbr/mbr
         echo "$(date) - Juicy updated - $(eval $binary_name)"
     else
-        echo "$(date) - Juicy is up to date"
+        echo "$(date) - Juicy is up to date - $(eval $binary_name)"
     fi
 fi

@@ -25,7 +25,7 @@ update_zesty (){
     nginx -s reload
     # supervisorctl restart openresty
     mkdir -p /var/run/nginx-client-body
-    echo "$(date) - Zesty updated successfully"
+    echo "$(date) - Zesty updated successfully - $1"
     exit 0
 }
 
@@ -38,7 +38,7 @@ if [ -d "$folder_path" ]; then
     git_tag=$(git describe --tags --abbrev=0)
     
     if [ "$git_tag" == "$1" ]; then
-        echo "$(date) - Zesty is up to date"
+        echo "$(date) - Zesty is up to date - $1"
         exit 0
     else 
         cd /tmp

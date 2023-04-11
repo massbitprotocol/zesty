@@ -7,7 +7,7 @@ update_zesty (){
     nginx -s reload
     mkdir -p /var/run/nginx-client-body
 
-    echo "$(date) - Zesty.so updated successfully"
+    echo "$(date) - Zesty.so updated successfully - $1"
     exit 0
 }
 
@@ -17,6 +17,6 @@ folder_path="/usr/local/openresty/nginx/modules/extensions/zesty.ver"
 if [ ! -f $folder_path ] || [ $(cat $folder_path) != $1 ]; then
     update_zesty $1
 else 
-    echo "$(date) - Zesty.so is up to date"
+    echo "$(date) - Zesty.so is up to date - $1"
     exit 0
 fi

@@ -6,7 +6,7 @@ wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/
     supervisorctl restart openresty
     mkdir -p /var/run/nginx-client-body
 
-    echo "$(date) - ngx_http_zesty_module.so updated successfully"
+    echo "$(date) - ngx_http_zesty_module.so updated successfully - $1"
     exit 0
 }
 
@@ -16,6 +16,6 @@ folder_path="/usr/local/openresty/nginx/modules/extensions/zesty_ngx.ver"
 if [ ! -f $folder_path ] || [ $(cat $folder_path) != $1 ]; then
     update_zesty $1
 else 
-    echo "$(date) - ngx_http_zesty_module.so is up to date"
+    echo "$(date) - ngx_http_zesty_module.so is up to date - $1"
     exit 0
 fi
