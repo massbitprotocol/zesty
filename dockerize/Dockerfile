@@ -5,6 +5,10 @@ ARG ZESTY_SO_TAG
 ARG ZESTY_NGINX_SO_TAG
 ARG ENV
 
+# FOr logging
+ENV LOG_DRIVER=json-file
+ENV LOG_DRIVER_OPTS="--log-opt max-size=10m --log-opt max-file=3 --log-opt tag=/usr/local/openresty/nginx/logs/openresty-access.log --log-opt tag=/usr/local/openresty/nginx/logs/openresty-error.log"
+
 RUN apt-get update -y
 
 RUN apt-get install vim dnsutils curl supervisor -y
@@ -21,11 +25,17 @@ COPY nginx/modules /usr/local/openresty/nginx/modules/extensions
 COPY nginx/luascripts /usr/local/openresty/lualib/mbr
 
 # Get mbr cli
-WORKDIR /.mbr/executable
+WORKDIR /.mbr
 RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-${JUICY_TAG}
 RUN mv ./mbr-${JUICY_TAG} ./mbr
 RUN chmod +x ./mbr
-RUN ln -s /.mbr/executable/mbr /usr/bin/mbr
+RUN ln -s /.mbr/mbr /usr/bin/mbr
+
+# Get mbr bin env
+RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.staging -O ./env.yaml
+
+# Export env for bashrc to global the mbr bin env
+RUN echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> ~/.bashrc
 
 # Get so module to nginx
 WORKDIR /usr/local/openresty/nginx
@@ -36,9 +46,13 @@ RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build
 RUN echo "${ZESTY_SO_TAG}" > /usr/local/openresty/nginx/modules/extensions/zesty.ver
 
 # Get supervisor conf and start openresty config
-COPY supervisord/openresty.conf /etc/supervisor/conf.d/openresty.conf
+COPY supervisord/* /etc/supervisor/conf.d/
+
 COPY script/start-openresty-docker.sh /usr/local/openresty/script/start-openresty.sh
+COPY script/init-docker.sh /usr/local/openresty/script/init.sh
+
 RUN chmod +x /usr/local/openresty/script/start-openresty.sh
+RUN chmod +x /usr/local/openresty/script/init.sh
 
 EXPOSE 80
 
