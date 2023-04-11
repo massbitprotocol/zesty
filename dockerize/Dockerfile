@@ -51,6 +51,7 @@ RUN chmod +x /usr/local/openresty/script/start-openresty.sh
 RUN chmod +x /usr/local/openresty/script/init.sh
 
 EXPOSE 80
+EXPOSE 443
 
 # CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
 CMD ["/usr/bin/supervisord", "-n"]
