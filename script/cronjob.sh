@@ -21,6 +21,15 @@ while IFS='=' read -r key value; do
         ;;
     esac
 
-
-
 done < VERSION_INFO
+
+API_URL="localhost/_rtt"
+
+HTTP_STATUS=$(curl --silent --head $API_URL | head -n 1 | cut -d " " -f 2)
+
+if [ "$HTTP_STATUS" = "200" ]; then
+  echo "API returned 200 OK"
+else
+  echo "Reloading openresty"
+  supervisorctl restart openresty
+fi
