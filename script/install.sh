@@ -4,7 +4,7 @@ GREY='\033[0;37m'
 NC='\033[0m'
 
 # Print grey text
-echo -e "${GREY}Massbit Gateway Client installation in progresss${NC}"
+echo -e "${GREY}Massbit Gateway Client installation in progress${NC}"
 
 # Remove old config
 supervisorctl stop all > /dev/null 2>&1
