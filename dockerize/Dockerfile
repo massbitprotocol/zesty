@@ -28,7 +28,7 @@ RUN chmod +x ./mbr
 RUN ln -s /.mbr/mbr /usr/bin/mbr
 
 # Get mbr bin env
-RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.staging -O ./env.yaml
+RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.production -O ./env.yaml
 
 # Export env for bashrc to global the mbr bin env
 RUN echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> ~/.bashrc
