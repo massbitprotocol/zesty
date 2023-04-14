@@ -3,7 +3,7 @@
 update_zesty (){
     wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty-$1.so -O /usr/local/openresty/nginx/modules/extensions/zesty-$1.so
     export LD_LIBRARY_PATH=/usr/local/openresty/nginx/modules/extensions
-    echo $1 > /usr/local/openresty/nginx/modules/extensions/zesty.ver
+    echo $1 > /.mbr/zesty.ver
     nginx -s reload
     mkdir -p /var/run/nginx-client-body
 
@@ -12,7 +12,7 @@ update_zesty (){
 }
 
 
-folder_path="/usr/local/openresty/nginx/modules/extensions/zesty.ver"
+folder_path="/.mbr/zesty.ver"
 
 if [ ! -f $folder_path ] || [ $(cat $folder_path) != $1 ]; then
     update_zesty $1

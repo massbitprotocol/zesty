@@ -39,7 +39,7 @@ RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-buil
 
 RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/ngx_http_zesty_module-${ZESTY_NGINX_SO_TAG}.so -O /usr/local/openresty/nginx/modules/extensions/ngx_http_zesty_module.so
 
-RUN echo "${ZESTY_SO_TAG}" > /usr/local/openresty/nginx/modules/extensions/zesty.ver
+RUN echo "${ZESTY_SO_TAG}" > /.mbr/zesty.ver
 
 # Get supervisor conf and start openresty config
 COPY supervisord/* /etc/supervisor/conf.d/
