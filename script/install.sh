@@ -91,6 +91,8 @@ wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build
 chmod +x /.mbr/zesty
 # load supervisor config and start
 cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
+cp -r /tmp/zesty/supervisord/so-zesty-jr.conf   /etc/supervisor/conf.d/so-zesty-jr.conf
+
 cp -r /tmp/zesty/script /usr/local/openresty/
 
 # echo $so_zesty_nginx_version > /usr/local/openresty/nginx/modules/extensions/zesty_ngx.ver
