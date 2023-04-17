@@ -24,6 +24,8 @@ if ! grep -q "MBR_CONFIG_FILE" ./.bashrc; then
   echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> ./.bashrc
 fi
 
+source ./.bashrc
+
 # Install dependencies
 
 _ubuntu() {
