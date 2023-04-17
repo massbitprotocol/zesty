@@ -26,7 +26,7 @@ if ! grep -q "MBR_CONFIG_FILE" ~/.bashrc; then
 fi
 
 if ! grep -q "MBR_CONFIG_FILE" /etc/environment; then
-  echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> /etc/environment
+  echo "MBR_CONFIG_FILE=/.mbr/env.yaml" >> /etc/environment
 fi
 
 source ~/.bashrc
