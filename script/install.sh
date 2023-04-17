@@ -20,11 +20,17 @@ rm /usr/bin/mbr > /dev/null 2>&1
 kill -9 $(ps aux | grep '[n]ginx' | awk '{print $2}') > /dev/null 2>&1
 echo "" | crontab
 
+# Check env and apply env
 if ! grep -q "MBR_CONFIG_FILE" ./.bashrc; then
   echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> ./.bashrc
 fi
 
+if ! grep -q "MBR_CONFIG_FILE" /etc/environment; then
+  echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> /etc/environment
+fi
+
 source ./.bashrc
+source /etc/environment
 
 # Install dependencies
 
@@ -120,7 +126,7 @@ fi
 
 (crontab -l ; echo "*/5 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab
 
-wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.staging -O /.mbr/env.yaml
+wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.production -O /.mbr/env.yaml
 
 # Load and run CLIty/      
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
