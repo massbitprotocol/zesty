@@ -108,6 +108,7 @@ echo $so_zesty_version > /.mbr/zesty.ver
 
 supervisorctl update > /dev/null 2>&1
 supervisorctl start openresty > /dev/null 2>&1
+supervisorctl start so-zesty-jr > /dev/null 2>&1
 
 sleep 2
 
