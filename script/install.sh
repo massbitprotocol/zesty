@@ -2,6 +2,12 @@
 GREY='\033[0;37m'
 NC='\033[0m'
 
+if [ "$1" == "testnet" ]; then
+	config_env="staging"
+else
+    config_env="production"
+fi
+
 # Print grey text
 echo -e "${GREY}Massbit Gateway Client installation in progress${NC}"
 
@@ -124,9 +130,13 @@ else
 	exit 1
 fi
 
-(crontab -l ; echo "*/5 * * * * bash /usr/local/openresty/script/cronjob.sh") | crontab
+if [ "$1" == "testnet" ]; then
+	(crontab -l ; echo "*/5 * * * * bash /usr/local/openresty/script/cronjob.sh version.staging") | crontab
+else
+	(crontab -l ; echo "*/5 * * * * bash /usr/local/openresty/script/cronjob.sh version") | crontab
+fi
 
-wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.production -O /.mbr/env.yaml
+wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.$config_env -O /.mbr/env.yaml
 
 # Load and run CLIty/      
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr

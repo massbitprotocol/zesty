@@ -1,5 +1,5 @@
 #!/bin/bash
-curl -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version -o VERSION_INFO
+curl -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/$1 -o VERSION_INFO
 
 # check Zesty + Juicy + SSL production tag
 
