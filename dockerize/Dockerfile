@@ -7,7 +7,7 @@ ARG ENV
 
 RUN apt-get update -y
 
-RUN apt-get install vim dnsutils curl supervisor -y
+RUN apt-get install vim dnsutils curl supervisor logrotate -y
 
 # Bundle src
 COPY nginx/conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
@@ -29,9 +29,6 @@ RUN ln -s /.mbr/mbr /usr/bin/mbr
 
 # Get mbr bin env
 RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.production -O ./env.yaml
-
-# Export env for bashrc to global the mbr bin env
-RUN echo "export MBR_CONFIG_FILE=/.mbr/env.yaml" >> ~/.bashrc
 
 # Get so module to nginx
 WORKDIR /usr/local/openresty/nginx
