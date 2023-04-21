@@ -3,9 +3,10 @@ GREY='\033[0;37m'
 NC='\033[0m'
 
 if [ "$1" == "testnet" ]; then
-	config_env="staging"
+	juicy_config_env="staging"
+	version_env=".staging"
 else
-    config_env="production"
+    juicy_config_env="production"
 fi
 
 # Print grey text
@@ -68,7 +69,7 @@ else
 	exit 0
 fi
 
-wget -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version -O VERSION_INFO
+wget -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version$version_env -O VERSION_INFO
 
 zesty_version=$(cat VERSION_INFO | grep '^ZESTY=' | cut -d = -f2 )
 juicy_version=$(cat VERSION_INFO | grep '^JUICY=' | cut -d = -f2 )
@@ -136,7 +137,7 @@ else
 	(crontab -l ; echo "*/5 * * * * bash /usr/local/openresty/script/cronjob.sh version") | crontab
 fi
 
-wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.$config_env -O /.mbr/env.yaml
+wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.$juicy_config_env -O /.mbr/env.yaml
 
 # Load and run CLIty/      
 wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/binary/mbr-$juicy_version -O /.mbr/mbr
