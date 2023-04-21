@@ -151,4 +151,4 @@ kill -9 $(ps aux | grep '[n]ginx' | awk '{print $2}')
 cp -r /tmp/zesty/logrotate/logrotate.conf /etc/logrotate.d/mbr_logrotate.conf
 
 /.mbr/mbr login
-/.mbr/mbr gateway init
+/.mbr/mbr gateway run
