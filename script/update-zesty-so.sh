@@ -3,6 +3,7 @@
 update_zesty (){
     wget -q https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty-$1 -O /.mbr/zesty
     export LD_LIBRARY_PATH=/usr/local/openresty/nginx/modules/extensions
+    chmod +x /.mbr/zesty
     echo $1 > /.mbr/zesty.ver
     nginx -s reload
     mkdir -p /var/run/nginx-client-body
