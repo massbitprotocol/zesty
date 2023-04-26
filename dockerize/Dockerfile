@@ -30,9 +30,12 @@ RUN ln -s /.mbr/mbr /usr/bin/mbr
 # Get mbr bin env
 RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.production -O ./env.yaml
 
-# Get so module to nginx
+# Get Zesty So(Go) bin
+RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty-${ZESTY_SO_TAG} -O ./zesty
+RUN chmod +x /.mbr/zesty
+
+# Get ngx_http_zesty_module C to nginx
 WORKDIR /usr/local/openresty/nginx
-RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty-${ZESTY_SO_TAG}.so -O /usr/local/openresty/nginx/modules/extensions/zesty-${ZESTY_SO_TAG}.so
 
 RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/ngx_http_zesty_module-${ZESTY_NGINX_SO_TAG}.so -O /usr/local/openresty/nginx/modules/extensions/ngx_http_zesty_module.so
 
@@ -46,6 +49,9 @@ COPY script/init-docker.sh /usr/local/openresty/script/init.sh
 
 RUN chmod +x /usr/local/openresty/script/start-openresty.sh
 RUN chmod +x /usr/local/openresty/script/init.sh
+
+# Get logrotate conf
+COPY logrotate/logrotate.conf /etc/logrotate.d/mbr_logrotate.conf
 
 EXPOSE 80
 EXPOSE 443
