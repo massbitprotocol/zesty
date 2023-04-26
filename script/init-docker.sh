@@ -1,2 +1,2 @@
 mbr login -t $TOKEN
-mbr gateway init --id=${GW_ID} -f
+mbr gateway run --id=${GW_ID} --ip=${GW_IP}
