@@ -41,7 +41,7 @@ source /etc/environment
 # Install dependencies
 
 _ubuntu() {
-	apt-get -qq update 
+	apt-get update -qq
     apt-get install -y curl gnupg2 ca-certificates lsb-release git make build-essential supervisor logrotate -qq
 
 }
