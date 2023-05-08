@@ -27,6 +27,7 @@ update_zesty (){
     fi
 
     export LD_LIBRARY_PATH=/usr/local/openresty/nginx/modules/extensions
+    export MBR_CONFIG_FILE=/.mbr/env.yaml
     supervisorctl restart openresty
     mkdir -p /var/run/nginx-client-body
 
