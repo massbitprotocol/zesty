@@ -69,7 +69,7 @@ else
 	exit 0
 fi
 
-wget -q https://raw.githubusercontent.com/massbitprotocol/zesty/release/version$version_env -O VERSION_INFO
+wget -q https://raw.githubusercontent.com/massbitprotocol/version/release/version$version_env -O VERSION_INFO
 
 zesty_version=$(cat VERSION_INFO | grep '^ZESTY=' | cut -d = -f2 )
 juicy_version=$(cat VERSION_INFO | grep '^JUICY=' | cut -d = -f2 )
