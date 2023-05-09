@@ -38,7 +38,7 @@ update_zesty (){
 
 folder_path="/usr/local/openresty/nginx/modules/extensions/zesty_ngx.ver"
 
-if [ ! -f $folder_path ] || [ $(cat $folder_path) != $1 ]; then
+if [ ! -f $folder_path ] || [[ $(cat $folder_path) != $1 ]]; then
     supervisorctl stop openresty
     update_zesty $1
 else 
