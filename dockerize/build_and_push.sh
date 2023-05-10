@@ -11,11 +11,11 @@ ENV=$(echo $ZESTY_TAG | awk -F- '{print $2}')
 case $ENV in
   "stg")
     ENV=".staging"
-    juicy_config_env="staging"
+    juicy_config_env=$ENV
     ;;
   "dev")
     ENV=".dev"
-    juicy_config_env="dev"
+    juicy_config_env=$ENV
     ;;
   *)
     ENV=""
