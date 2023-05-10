@@ -3,7 +3,7 @@ FROM openresty/openresty:1.19.9.1-14-focal
 ARG JUICY_TAG
 ARG ZESTY_SO_TAG
 ARG ZESTY_NGINX_SO_TAG
-ARG ENV
+ARG JUICY_ENV
 
 RUN apt-get update -y
 
@@ -28,7 +28,7 @@ RUN chmod +x ./mbr
 RUN ln -s /.mbr/mbr /usr/bin/mbr
 
 # Get mbr bin env
-RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml.production -O ./env.yaml
+RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/juicy-config/env.yaml${JUICY_ENV} -O ./env.yaml
 
 # Get Zesty So(Go) bin
 RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/go-build/zesty-${ZESTY_SO_TAG} -O ./zesty
