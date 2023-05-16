@@ -45,10 +45,10 @@ RUN echo "${ZESTY_SO_TAG}" > /.mbr/zesty.ver
 COPY supervisord/* /etc/supervisor/conf.d/
 
 COPY script/start-openresty-docker.sh /usr/local/openresty/script/start-openresty.sh
-COPY script/init-docker.sh /usr/local/openresty/script/init.sh
+# COPY script/init-docker.sh /usr/local/openresty/script/init.sh
 
 RUN chmod +x /usr/local/openresty/script/start-openresty.sh
-RUN chmod +x /usr/local/openresty/script/init.sh
+# RUN chmod +x /usr/local/openresty/script/init.sh
 
 # Get logrotate conf
 COPY logrotate/logrotate.conf /etc/logrotate.d/mbr_logrotate.conf

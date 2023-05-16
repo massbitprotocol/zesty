@@ -3,7 +3,7 @@
 ZESTY_TAG=$1
 
 # Specify ENV
-ENV=$(echo $ZESTY_TAG | awk -F- '{print $2}')
+ENV=$2
 
 case $ENV in
   "stg")
