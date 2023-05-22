@@ -16,7 +16,7 @@ case $ENV in
     ;;
   *)
     ENV=""
-    juicy_config_env="production"
+    juicy_config_env=".production"
     ;;
 esac
 
