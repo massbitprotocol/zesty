@@ -1,7 +1,4 @@
 #!bin/bash
-# Reset everything on branch
-git reset --hard
-
 # Get image tag name
 ZESTY_TAG=$1
 
@@ -31,12 +28,6 @@ ZESTY_SO_TAG=$(curl -q https://raw.githubusercontent.com/massbitprotocol/version
 
 # Get the version of JUICY based on version from ZESTY
 ZESTY_NGINX_SO_TAG=$(curl -q https://raw.githubusercontent.com/massbitprotocol/version/release/version$ENV | grep ZESTY_NGINX_SO | cut -d"=" -f2)
-
-# Get latest tag
-git fetch --all --tags --force
-
-# Checkout latest tag
-git checkout tags/${ZESTY_TAG}
 
 # Build docker image
 docker build -f ./Dockerfile -t massbit/massbitroute_zesty:${ZESTY_TAG} --build-arg JUICY_TAG=${JUICY_TAG} --build-arg ZESTY_SO_TAG=${ZESTY_SO_TAG} --build-arg ZESTY_NGINX_SO_TAG=${ZESTY_NGINX_SO_TAG} --build-arg JUICY_ENV=${juicy_config_env} ..
