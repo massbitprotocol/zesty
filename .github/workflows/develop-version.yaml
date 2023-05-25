@@ -1,13 +1,17 @@
-name: "Update develop version"
+name: 'Update develop version'
 
 on:
-  push:
+  pull_request:
     branches:
       - dev
+    types:
+      - closed
+
 
 jobs:
   build:
     name: Create release
+    if: github.event.pull_request.merged == true  
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,11 +24,9 @@ jobs:
           RELEASE_VERSION=$(git tag --sort=-refname | awk 'match($0, /^v[0-9]+\.[0-9]+\.[0-9]+$/)' | head -n 1)
           DEVELOP_VERSION=$(git tag -l --sort=-v:refname "v[0-9].[0-9].[0-9]-dev-*" | head -n 1)
           NEW_VERSION=$(./inc.awk ${RELEASE_VERSION} dev ${DEVELOP_VERSION})
-          echo ${RELEASE_VERSION}
-          echo ${DEVELOP_VERSION}
           echo ${NEW_VERSION}
           echo "version=${NEW_VERSION}" >> $GITHUB_OUTPUT
-      - name: "Create new tag"
+      - name: 'Create new tag'
         id: tag
         run: |
           git tag ${{ steps.prep.outputs.version }}
