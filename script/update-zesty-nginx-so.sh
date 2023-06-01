@@ -29,8 +29,8 @@ update_zesty (){
     export LD_LIBRARY_PATH=/usr/local/openresty/nginx/modules/extensions
     export MBR_CONFIG_FILE=/.mbr/env.yaml
     supervisorctl restart openresty
-    mkdir -p /var/run/nginx-client-body
-
+    mkdir -p /var/run/openresty/nginx-client-body
+    /.mbr/mbr gateway run
     echo "$(date) - ngx_http_zesty_module.so updated successfully - $1"
     exit 0
 }
