@@ -24,7 +24,7 @@ update_zesty (){
     export LD_LIBRARY_PATH=/usr/local/openresty/nginx/modules/extensions
     nginx -s reload
     # supervisorctl restart openresty
-    mkdir -p /var/run/nginx-client-body
+    mkdir -p /var/run/openresty/nginx-client-body
     echo "$(date) - Zesty updated successfully - $1"
     exit 0
 }
