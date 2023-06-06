@@ -15,10 +15,12 @@ COPY nginx/conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 COPY nginx/conf/include /usr/local/openresty/nginx/conf/extensions/include
 
 COPY nginx/conf/subconf /usr/local/openresty/nginx/conf/extensions/subconf
- 
+
 COPY nginx/modules /usr/local/openresty/nginx/modules/extensions
 
 COPY nginx/luascripts /usr/local/openresty/lualib/mbr
+
+COPY nginx/certs /usr/local/openresty/nginx/certs
 
 # Get mbr cli
 WORKDIR /.mbr
@@ -36,6 +38,10 @@ RUN chmod +x /.mbr/zesty
 
 # Get ngx_http_zesty_module C to nginx
 WORKDIR /usr/local/openresty/nginx
+
+# Include new lib for zesty
+RUN ln -s /usr/local/openresty/nginx/modules/extensions/libl8w8jwt.so.2.1.7 /usr/lib/libl8w8jwt.so.2
+RUN ln -s /usr/lib/libl8w8jwt.so.2 /usr/lib/libl8w8jwt.so
 
 RUN wget https://public-massbit.s3.ap-southeast-1.amazonaws.com/so-zesty/c-build/ngx_http_zesty_module-${ZESTY_NGINX_SO_TAG}.so -O /usr/local/openresty/nginx/modules/extensions/ngx_http_zesty_module.so
 
