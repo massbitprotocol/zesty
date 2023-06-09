@@ -62,8 +62,8 @@ RUN chmod +x /usr/local/openresty/script/start-openresty.sh
 # Get logrotate conf
 COPY logrotate/logrotate.conf /etc/logrotate.d/mbr_logrotate.conf
 
-RUN chmod +x /usr/local/openresty/script/download_certs.sh
-RUN /usr/local/openresty/script/download_certs.sh
+RUN chmod +x /usr/local/openresty/script/download_certs-docker.sh
+RUN /usr/local/openresty/script/download_certs-docker.sh
 
 EXPOSE 80
 EXPOSE 443
