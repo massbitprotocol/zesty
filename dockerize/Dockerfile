@@ -24,6 +24,9 @@ COPY nginx/luascripts /usr/local/openresty/lualib/mbr
 
 COPY script /usr/local/openresty/script
 
+COPY redis /usr/local/openresty/redis
+RUN cp -f /usr/local/openresty/redis/redis.conf /etc/redis/redis.conf
+
 RUN mkdir -p /usr/local/openresty/nginx/certs
 
 # Get mbr cli
