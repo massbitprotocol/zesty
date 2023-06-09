@@ -9,7 +9,7 @@ RUN apt-get update -y
 
 RUN apt-get install vim dnsutils curl supervisor logrotate redis redis-server -y
 
-RUN service stop redis-server
+RUN service redis-server stop
 
 # Bundle src
 COPY nginx/conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
