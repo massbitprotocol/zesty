@@ -9,8 +9,6 @@ RUN apt-get update -y
 
 RUN apt-get install vim dnsutils curl supervisor logrotate redis redis-server -y
 
-RUN service redis-server stop
-
 # Bundle src
 COPY nginx/conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
@@ -67,6 +65,9 @@ COPY logrotate/logrotate.conf /etc/logrotate.d/mbr_logrotate.conf
 
 RUN chmod +x /usr/local/openresty/script/download_certs-docker.sh
 RUN /usr/local/openresty/script/download_certs-docker.sh
+
+# Restart redis service
+RUN service redis-server restart
 
 EXPOSE 80
 EXPOSE 443
