@@ -21,10 +21,11 @@ update_zesty (){
     cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 
     rm /tmp/mbr_datasources.sock
+    export ENDPOINT_STATISTICS=[[PORTAL_DOMAIN]]/mbr/stat/__internal
     export LD_LIBRARY_PATH=/usr/local/openresty/nginx/modules/extensions
     nginx -s reload
     # supervisorctl restart openresty
-    mkdir -p /var/run/nginx-client-body
+    mkdir -p /var/run/openresty/nginx-client-body
     echo "$(date) - Zesty updated successfully - $1"
     exit 0
 }
