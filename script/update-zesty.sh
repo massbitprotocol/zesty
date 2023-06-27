@@ -21,7 +21,7 @@ update_zesty (){
     cp -r /tmp/zesty/supervisord/openresty.conf   /etc/supervisor/conf.d/openresty.conf
 
     rm /tmp/mbr_datasources.sock
-    export ENDPOINT_STATISTICS=https://[[PORTAL_DOMAIN]]/mbr/stat/__internal
+    export ENDPOINT_STATISTICS=[[PORTAL_DOMAIN]]/mbr/stat/__internal
     export LD_LIBRARY_PATH=/usr/local/openresty/nginx/modules/extensions
     nginx -s reload
     # supervisorctl restart openresty
